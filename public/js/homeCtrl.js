@@ -10,4 +10,9 @@ angular.module('budget').controller('homeCtrl',
         console.log(result);
       });
     }
+    $scope.addLoan = (payee, balance, payment, rate, term, first) => {
+      homeSvc.addLoan(payee, balance, payment, rate, term, first).then((result) => {
+        console.log(result);
+      });
+    }
 });

@@ -98,6 +98,24 @@ app.post('/addIncome', function(req, res) {
   });
 });
 
+app.post('/addLoan', function(req, res) {
+  MongoClient.connect(url, function(err, db) {
+    var collection = db.collection("loans");
+    collection.insertOne({
+      payee: req.body.payee,
+      balance: req.body.balance,
+      payment: req.body.payment,
+      rate: req.body.rate,
+      term: req.body.term,
+      first: req.body.first
+    }, function(err, result) {
+      assert.equal(err, null);
+      res.status(200).send("Added Loan");
+      db.close();
+    });
+  });
+});
+
 /* SERVER */
 app.listen(port, function() {
   console.log('port ' + port + ' is listening');

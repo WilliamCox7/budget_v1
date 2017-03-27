@@ -20,4 +20,15 @@ angular.module('budget').service('homeSvc',
         return result.data;
       });
     }
+    this.addLoan = (payee, balance, payment, rate, term, first) => {
+      return $http({
+        method: 'POST',
+        url: '/addLoan',
+        data: {
+          payee: payee, balance: balance, payment: payment, rate: rate, term: term, first: first
+        }
+      }).then((result) => {
+        return result.data;
+      });
+    }
 });

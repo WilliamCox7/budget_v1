@@ -192,31 +192,34 @@
       <table>
         <tr>
           <td>Payee:</td>
-          <td><input type="text" /></td>
+          <td><input ng-model="loanPayee" type="text" /></td>
         </tr>
         <tr>
           <td>Initial Balance:</td>
-          <td><input type="text" /></td>
+          <td><input ng-model="loanBalance" type="text" /></td>
         </tr>
         <tr>
           <td>Monthly Payment:</td>
-          <td><input type="text" /></td>
+          <td><input ng-model="loanPayment" type="text" /></td>
         </tr>
         <tr>
           <td>Rate:</td>
-          <td><input type="text" /></td>
+          <td><input ng-model="loanRate" type="text" /></td>
         </tr>
         <tr>
           <td>Term:</td>
-          <td><input type="text" /></td>
+          <td><input ng-model="loanTerm" type="text" /></td>
         </tr>
         <tr>
           <td>First Payment:</td>
-          <td><input type="date" /></td>
+          <td><input ng-model="loanFirst" type="date" /></td>
         </tr>
         <tr>
           <td></td>
-          <td><button>Add Loan</button></td>
+          <td><button ng-click="addLoan(
+            loanPayee, loanBalance, loanPayment,
+            loanRate, loanTerm, loanFirst
+          )">Add Loan</button></td>
         </tr>
       </table>
     </div>
