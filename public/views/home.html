@@ -4,13 +4,13 @@
       <table>
         <tr>
           <td>Income Source:</td>
-          <td><input type="text" /></td>
+          <td><input ng-model="incomeSource" type="text" /></td>
         </tr>
         <tr id="amount-section">
           <td>Amount:</td>
           <td>
-            <input type="text" />
-            <select>
+            <input ng-model="incomeAmount" type="text" />
+            <select ng-model="incomeLength">
               <option value="/yr">/yr</option>
               <option value="/hr">/hr</option>
             </select>
@@ -18,16 +18,16 @@
         </tr>
         <tr id="hour-section">
           <td>Hours/wk:</td>
-          <td><input type="text" /></td>
+          <td><input ng-model="incomeHours" type="text" /></td>
         </tr>
         <tr>
           <td>First Payment:</td>
-          <td><input type="date" /></td>
+          <td><input ng-model="incomeFirst" type="date" /></td>
         </tr>
         <tr id="pattern-section">
           <td>Payment Pattern:</td>
           <td>
-            <select>
+            <select ng-model="incomePattern">
               <option value="bi-weekly">Bi-Weekly</option>
               <option value="once">Once</option>
             </select>
@@ -36,13 +36,16 @@
         <tr id="deduction-section">
           <td>Pre-Tax Deduction:</td>
           <td>
-            <input type="text" placeholder="n/a" />
-            <input type="text" placeholder="%" />
+            <input ng-model="incomeDeduction" type="text" placeholder="n/a" />
+            <input ng-model="incomePercent" type="text" placeholder="%" />
           </td>
         </tr>
         <tr>
           <td></td>
-          <td><button>Add Income</button></td>
+          <td><button ng-click="addIncome(
+            incomeSource, incomeAmount, incomeLength, incomeHours,
+            incomeFirst, incomePattern, incomeDeduction, incomePercent
+          )">Add Income</button></td>
         </tr>
       </table>
     </div>

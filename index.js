@@ -66,7 +66,35 @@ app.get('/getData', function(req, res) {
     var incomes = db.collection("incomes").find();
     var loans = db.collection("loans").find();
     var expenses = db.collection("expenses").find();
-    // console.log(incomes);
+    incomes.each(function(err, item) {
+      if (item === null) {
+        db.close();
+        return;
+      }
+      else {
+        console.log(item);
+      }
+    });
+  });
+});
+
+app.post('/addIncome', function(req, res) {
+  MongoClient.connect(url, function(err, db) {
+    var collection = db.collection("incomes");
+    collection.insertOne({
+      source: req.body.source,
+      amount: req.body.amount,
+      length: req.body.length,
+      hours: req.body.hours,
+      first: req.body.first,
+      pattern: req.body.pattern,
+      deduction: req.body.deduction,
+      percent: req.body.percent
+    }, function(err, result) {
+      assert.equal(err, null);
+      res.status(200).send("Added Income");
+      db.close();
+    });
   });
 });
 
