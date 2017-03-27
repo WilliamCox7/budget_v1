@@ -6,6 +6,7 @@ var session = require('express-session');
 var config = require('./config.js');
 var exec = require('child_process').execFile;
 var MongoClient = require('mongodb').MongoClient;
+var mongodb = require('mongodb');
 var assert = require('assert');
 var LocalStrategy = require('passport-local').Strategy;
 var less = require('less');
@@ -66,13 +67,29 @@ app.get('/getData', function(req, res) {
     var incomes = db.collection("incomes").find();
     var loans = db.collection("loans").find();
     var expenses = db.collection("expenses").find();
-    incomes.each(function(err, item) {
-      if (item === null) {
-        db.close();
-        return;
-      }
-      else {
-        console.log(item);
+    var data = {
+      incomes: [],
+      loans: [],
+      expenses: []
+    }
+    incomes.each(function(err, inc) {
+      if (inc === null) {
+        loans.each(function(err, loan) {
+          if (loan === null) {
+            expenses.each(function(err, exp) {
+              if (exp === null) {
+                res.status(200).send(data);
+                db.close();
+              } else {
+                data.expenses.push(exp);
+              }
+            });
+          } else {
+            data.loans.push(loan);
+          }
+        });
+      } else {
+        data.incomes.push(inc);
       }
     });
   });
@@ -93,6 +110,41 @@ app.post('/addIncome', function(req, res) {
     }, function(err, result) {
       assert.equal(err, null);
       res.status(200).send("Added Income");
+      db.close();
+    });
+  });
+});
+
+app.delete('/removeIncome/:source', function(req, res) {
+  MongoClient.connect(url, function(err, db) {
+    var collection = db.collection("incomes");
+    collection.remove({
+      source: req.params.source
+    }, function(err, result) {
+      assert.equal(err, null);
+      res.status(200).send("Removed Income");
+      db.close();
+    });
+  });
+});
+
+app.put('/updateIncome', function(req, res) {
+  MongoClient.connect(url, function(err, db) {
+    var collection = db.collection("incomes");
+    collection.updateOne({
+      '_id': new mongodb.ObjectID(req.body._id)
+    }, { $set: {
+      'source': req.body.source,
+      'amount': req.body.amount,
+      'length': req.body.length,
+      'hours': req.body.hours,
+      'first': req.body.first,
+      'pattern': req.body.pattern,
+      'deduction': req.body.deduction,
+      'percent': req.body.percent
+    }}, function(err, result) {
+      assert.equal(err, null);
+      res.status(200).send("Updated Income");
       db.close();
     });
   });

@@ -42,10 +42,17 @@
         </tr>
         <tr>
           <td></td>
-          <td><button ng-click="addIncome(
-            incomeSource, incomeAmount, incomeLength, incomeHours,
-            incomeFirst, incomePattern, incomeDeduction, incomePercent
-          )">Add Income</button></td>
+          <td>
+            <button id="add-inc-btn" ng-click="addIncome(
+              incomeSource, incomeAmount, incomeLength, incomeHours,
+              incomeFirst, incomePattern, incomeDeduction, incomePercent
+            )">Add Income</button>
+            <button id="update-inc-btn" ng-click="updateIncome(
+              incomeSource, incomeAmount, incomeLength, incomeHours,
+              incomeFirst, incomePattern, incomeDeduction, incomePercent
+            )">Update</button>
+            <button id="remove-inc-btn" ng-click="removeIncome(incomeSource)">Remove</button>
+          </td>
         </tr>
       </table>
     </div>
@@ -178,10 +185,10 @@
         </div>
       </div>
       <div class="sources">
-        <div ng-repeat="inc in incomes" class="source">
-          <p>{{inc}}</p>
+        <div ng-click="getIncome(inc.source, $event)" ng-repeat="inc in incomes" class="source">
+          {{inc.source}}
         </div>
-        <div class="source-img">
+        <div ng-click="newIncome($event)" id="source-img-1" class="source-img">
           <img src="../src/add.png" />
         </div>
       </div>
@@ -289,7 +296,7 @@
       </div>
       <div class="sources">
         <div ng-repeat="loan in loans" class="source">
-          <p>{{loan}}</p>
+          <p>{{loan.payee}}</p>
         </div>
         <div class="source-img">
           <img src="../src/add.png" />
