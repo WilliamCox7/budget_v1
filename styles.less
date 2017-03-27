@@ -1,0 +1,344 @@
+body {
+  font-family: SegoeUI, Segoe UI;
+  font-size: 14px;
+}
+input, select {
+  background: slategray;
+  border: none;
+  padding: 6px;
+  outline: none;
+  color: white;
+  border-radius: 3px;
+  &:-webkit-autofill, &:focus:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px slategray inset;
+    -webkit-text-fill-color: white !important;
+  }
+}
+input[type=date]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    display: none;
+}
+::-webkit-input-placeholder {
+  color: white;
+}
+input[type="checkbox"]:checked + label span::after {
+  color: white;
+}
+label {
+  position: relative;
+  span {
+    &:hover {
+      cursor: pointer;
+    }
+    &::before, &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      margin: auto;
+    }
+    &::before {
+      width: 25px;
+      height: 25px;
+      background-color: slategray;
+      border-radius: 3px;
+      left: -35px;
+      box-sizing: border-box;
+      transition: border-color 0.2s;
+    }
+    &::after {
+      content: '\f00c';
+      font-family: 'FontAwesome';
+      left: -29px;
+      top: 2px;
+      color: transparent;
+      transition: color .2s;
+    }
+  }
+}
+button {
+  background: #3b4473;
+  border: none;
+  border-radius: 3px;
+  padding: 6px;
+  outline: none;
+  color: white;
+  &:hover {
+    cursor: pointer;
+    background: #313961;
+  }
+  &:focus {
+    background: #313961;
+  }
+}
+
+.login {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  background: #555C88;
+  form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 250px;
+    height: 91px;
+    z-index: 2;
+  }
+}
+.home {
+  background: #555C88;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 40px;
+  color: white;
+  .income-section, .loan-section, .expense-section {
+    display: flex;
+  }
+  .income {
+    width: 800px;
+    display: flex;
+    flex-direction: column;
+  }
+  .income-form, .loan-form, .expense-form {
+    width: 350px;
+    padding: 15px;
+    margin-top: 15px;
+    margin-right: 20px;
+    button {
+      float: right;
+      margin-right: -12px;
+    }
+    td {
+      padding: 5px;
+      input {
+        width: 98%;
+        padding-left: 10px;
+      }
+      &:nth-child(1) {
+        width: 130px;
+        text-align: right;
+        padding-right: 5px;
+      }
+    }
+    #amount-section {
+      td {
+        &:nth-child(2) {
+          display: flex;
+        }
+      }
+      select {
+        margin-left: 10px;
+        margin-right: -12px;
+      }
+    }
+    #hour-section {
+      display: none;
+    }
+    #pattern-section {
+      select {
+        width: 106.5%;
+      }
+    }
+    #deduction-section {
+      td {
+        &:nth-child(2) {
+          display: flex;
+          width: 106.5%;
+        }
+        input {
+          &:nth-child(1) {
+            width: 70%;
+          }
+          &:nth-child(2) {
+            width: 21%;
+            margin-left: 10px;
+          }
+        }
+      }
+    }
+  }
+  .expense-form {
+    select {
+      width: 100%;
+    }
+    td {
+      &:nth-child(1) {
+        text-align: left;
+      }
+      &:nth-child(2) {
+        text-align: right;
+      }
+    }
+    .rule-section {
+      display: flex;
+    }
+    #checkbox-section {
+      display: flex;
+      position: absolute;
+      margin-top: 5px;
+      margin-left: -17px;
+      input {
+        width: 45px;
+      }
+    }
+    #new-rule {
+      width: 87%;
+    }
+    #rule-condition {
+      width: 70px;
+    }
+    #rule-amount {
+      margin-left: 10px;
+      margin-right: -12px;
+    }
+  }
+  .loans {
+    width: 800px;
+    display: flex;
+    flex-direction: column;
+    .gray-box {
+      .right {
+        justify-content: flex-end;
+      }
+      .dollar {
+        margin: 0px 13px 0px 0px;
+      }
+    }
+  }
+  .expenses {
+    width: 800px;
+    display: flex;
+    flex-direction: column;
+  }
+  .projection {
+    width: 800px;
+    display: flex;
+    flex-direction: column;
+  }
+  .header-text {
+    padding: 10px;
+    float: left;
+  }
+  .gray-box {
+    width: 100%;
+    background: slategray;
+    border: solid 3px white;
+    padding: 15px 20px;
+    box-shadow: 1px 2px 7px #4c516d;
+    .left {
+      float: left;
+      width: 17%;
+      p {
+        text-align: left;
+      }
+    }
+    .right {
+      float: right;
+      width: 50%;
+      display: flex;
+      justify-content: space-between;
+      p {
+        width: 33.33%;
+      }
+    }
+    .middle {
+      display: flex;
+      justify-content: space-around;
+      width: 25%;
+    }
+    .dollar {
+      display: flex;
+      width: 100px;
+      margin: 0 auto;
+      height: 20px;
+      span {
+        text-align: right;
+        width: 100%;
+        padding: 2px 5px;
+      }
+    }
+    p {
+      text-align: center;
+      padding: 2px 5px;
+    }
+    .row-header {
+      height: 26px;
+      border-bottom: solid 1px gainsboro;
+      display: flex;
+      justify-content: space-between;
+    }
+    .rows {
+      border-bottom: solid 1px gainsboro;
+      padding: 5px 0px;
+      .row {
+        height: 20px;
+      }
+    }
+    .row-total {
+      margin-top: 5px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .total-remaining {
+      margin-top: 15px;
+      height: 20px;
+    }
+  }
+  .sources {
+    display: flex;
+    justify-content: flex-end;
+    .source {
+      padding: 15px;
+      background: slategray;
+      border: solid 3px white;
+      margin-left: 5px;
+      margin-top: 5px;
+      box-shadow: 1px 2px 7px #4c516d;
+      &:hover {
+        background: #2B3151;
+        cursor: pointer;
+      }
+    }
+    .source-img {
+      padding: 5px;
+      background: slategray;
+      border: solid 3px white;
+      margin-left: 5px;
+      margin-top: 5px;
+      max-height: 50px;
+      box-shadow: 1px 2px 7px #4c516d;
+      img {
+        width: 35px;
+      }
+      &:hover {
+        background: #2B3151;
+        cursor: pointer;
+      }
+    }
+  }
+  .month-boxes {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    .month-box {
+      width: 23%;
+      display: flex;
+      height: 70px;
+      margin: 7px 5px;
+      border: solid 3px white;
+      justify-content: center;
+      flex-direction: column;
+      background: #838CBB;
+      box-shadow: 1px 2px 6px #556473;
+      p {
+        padding: 0px 0px 7px 0px;
+      }
+    }
+  }
+}

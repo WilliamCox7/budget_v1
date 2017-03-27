@@ -1,0 +1,354 @@
+body {
+  font-family: SegoeUI, Segoe UI;
+  font-size: 14px;
+}
+input,
+select {
+  background: slategray;
+  border: none;
+  padding: 6px;
+  outline: none;
+  color: white;
+  border-radius: 3px;
+}
+input:-webkit-autofill,
+select:-webkit-autofill,
+input:focus:-webkit-autofill,
+select:focus:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px slategray inset;
+  -webkit-text-fill-color: white !important;
+}
+input[type=date]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  display: none;
+}
+::-webkit-input-placeholder {
+  color: white;
+}
+input[type="checkbox"]:checked + label span::after {
+  color: white;
+}
+label {
+  position: relative;
+}
+label span:hover {
+  cursor: pointer;
+}
+label span::before,
+label span::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+label span::before {
+  width: 25px;
+  height: 25px;
+  background-color: slategray;
+  border-radius: 3px;
+  left: -35px;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+label span::after {
+  content: '\f00c';
+  font-family: 'FontAwesome';
+  left: -29px;
+  top: 2px;
+  color: transparent;
+  transition: color .2s;
+}
+button {
+  background: #3b4473;
+  border: none;
+  border-radius: 3px;
+  padding: 6px;
+  outline: none;
+  color: white;
+}
+button:hover {
+  cursor: pointer;
+  background: #313961;
+}
+button:focus {
+  background: #313961;
+}
+.login {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  background: #555C88;
+}
+.login form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 250px;
+  height: 91px;
+  z-index: 2;
+}
+.home {
+  background: #555C88;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 40px;
+  color: white;
+}
+.home .income-section,
+.home .loan-section,
+.home .expense-section {
+  display: flex;
+}
+.home .income {
+  width: 800px;
+  display: flex;
+  flex-direction: column;
+}
+.home .income-form,
+.home .loan-form,
+.home .expense-form {
+  width: 350px;
+  padding: 15px;
+  margin-top: 15px;
+  margin-right: 20px;
+}
+.home .income-form button,
+.home .loan-form button,
+.home .expense-form button {
+  float: right;
+  margin-right: -12px;
+}
+.home .income-form td,
+.home .loan-form td,
+.home .expense-form td {
+  padding: 5px;
+}
+.home .income-form td input,
+.home .loan-form td input,
+.home .expense-form td input {
+  width: 98%;
+  padding-left: 10px;
+}
+.home .income-form td:nth-child(1),
+.home .loan-form td:nth-child(1),
+.home .expense-form td:nth-child(1) {
+  width: 130px;
+  text-align: right;
+  padding-right: 5px;
+}
+.home .income-form #amount-section td:nth-child(2),
+.home .loan-form #amount-section td:nth-child(2),
+.home .expense-form #amount-section td:nth-child(2) {
+  display: flex;
+}
+.home .income-form #amount-section select,
+.home .loan-form #amount-section select,
+.home .expense-form #amount-section select {
+  margin-left: 10px;
+  margin-right: -12px;
+}
+.home .income-form #hour-section,
+.home .loan-form #hour-section,
+.home .expense-form #hour-section {
+  display: none;
+}
+.home .income-form #pattern-section select,
+.home .loan-form #pattern-section select,
+.home .expense-form #pattern-section select {
+  width: 106.5%;
+}
+.home .income-form #deduction-section td:nth-child(2),
+.home .loan-form #deduction-section td:nth-child(2),
+.home .expense-form #deduction-section td:nth-child(2) {
+  display: flex;
+  width: 106.5%;
+}
+.home .income-form #deduction-section td input:nth-child(1),
+.home .loan-form #deduction-section td input:nth-child(1),
+.home .expense-form #deduction-section td input:nth-child(1) {
+  width: 70%;
+}
+.home .income-form #deduction-section td input:nth-child(2),
+.home .loan-form #deduction-section td input:nth-child(2),
+.home .expense-form #deduction-section td input:nth-child(2) {
+  width: 21%;
+  margin-left: 10px;
+}
+.home .expense-form select {
+  width: 100%;
+}
+.home .expense-form td:nth-child(1) {
+  text-align: left;
+}
+.home .expense-form td:nth-child(2) {
+  text-align: right;
+}
+.home .expense-form .rule-section {
+  display: flex;
+}
+.home .expense-form #checkbox-section {
+  display: flex;
+  position: absolute;
+  margin-top: 5px;
+  margin-left: -17px;
+}
+.home .expense-form #checkbox-section input {
+  width: 45px;
+}
+.home .expense-form #new-rule {
+  width: 87%;
+}
+.home .expense-form #rule-condition {
+  width: 70px;
+}
+.home .expense-form #rule-amount {
+  margin-left: 10px;
+  margin-right: -12px;
+}
+.home .loans {
+  width: 800px;
+  display: flex;
+  flex-direction: column;
+}
+.home .loans .gray-box .right {
+  justify-content: flex-end;
+}
+.home .loans .gray-box .dollar {
+  margin: 0px 13px 0px 0px;
+}
+.home .expenses {
+  width: 800px;
+  display: flex;
+  flex-direction: column;
+}
+.home .projection {
+  width: 800px;
+  display: flex;
+  flex-direction: column;
+}
+.home .header-text {
+  padding: 10px;
+  float: left;
+}
+.home .gray-box {
+  width: 100%;
+  background: slategray;
+  border: solid 3px white;
+  padding: 15px 20px;
+  box-shadow: 1px 2px 7px #4c516d;
+}
+.home .gray-box .left {
+  float: left;
+  width: 17%;
+}
+.home .gray-box .left p {
+  text-align: left;
+}
+.home .gray-box .right {
+  float: right;
+  width: 50%;
+  display: flex;
+  justify-content: space-between;
+}
+.home .gray-box .right p {
+  width: 33.33%;
+}
+.home .gray-box .middle {
+  display: flex;
+  justify-content: space-around;
+  width: 25%;
+}
+.home .gray-box .dollar {
+  display: flex;
+  width: 100px;
+  margin: 0 auto;
+  height: 20px;
+}
+.home .gray-box .dollar span {
+  text-align: right;
+  width: 100%;
+  padding: 2px 5px;
+}
+.home .gray-box p {
+  text-align: center;
+  padding: 2px 5px;
+}
+.home .gray-box .row-header {
+  height: 26px;
+  border-bottom: solid 1px gainsboro;
+  display: flex;
+  justify-content: space-between;
+}
+.home .gray-box .rows {
+  border-bottom: solid 1px gainsboro;
+  padding: 5px 0px;
+}
+.home .gray-box .rows .row {
+  height: 20px;
+}
+.home .gray-box .row-total {
+  margin-top: 5px;
+  display: flex;
+  justify-content: space-between;
+}
+.home .gray-box .total-remaining {
+  margin-top: 15px;
+  height: 20px;
+}
+.home .sources {
+  display: flex;
+  justify-content: flex-end;
+}
+.home .sources .source {
+  padding: 15px;
+  background: slategray;
+  border: solid 3px white;
+  margin-left: 5px;
+  margin-top: 5px;
+  box-shadow: 1px 2px 7px #4c516d;
+}
+.home .sources .source:hover {
+  background: #2B3151;
+  cursor: pointer;
+}
+.home .sources .source-img {
+  padding: 5px;
+  background: slategray;
+  border: solid 3px white;
+  margin-left: 5px;
+  margin-top: 5px;
+  max-height: 50px;
+  box-shadow: 1px 2px 7px #4c516d;
+}
+.home .sources .source-img img {
+  width: 35px;
+}
+.home .sources .source-img:hover {
+  background: #2B3151;
+  cursor: pointer;
+}
+.home .month-boxes {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.home .month-boxes .month-box {
+  width: 23%;
+  display: flex;
+  height: 70px;
+  margin: 7px 5px;
+  border: solid 3px white;
+  justify-content: center;
+  flex-direction: column;
+  background: #838CBB;
+  box-shadow: 1px 2px 6px #556473;
+}
+.home .month-boxes .month-box p {
+  padding: 0px 0px 7px 0px;
+}

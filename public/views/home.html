@@ -1,0 +1,682 @@
+<section class="home">
+  <div class="income-section">
+    <div class="income-form">
+      <table>
+        <tr>
+          <td>Income Source:</td>
+          <td><input type="text" /></td>
+        </tr>
+        <tr id="amount-section">
+          <td>Amount:</td>
+          <td>
+            <input type="text" />
+            <select>
+              <option value="/yr">/yr</option>
+              <option value="/hr">/hr</option>
+            </select>
+          </td>
+        </tr>
+        <tr id="hour-section">
+          <td>Hours/wk:</td>
+          <td><input type="text" /></td>
+        </tr>
+        <tr>
+          <td>First Payment:</td>
+          <td><input type="date" /></td>
+        </tr>
+        <tr id="pattern-section">
+          <td>Payment Pattern:</td>
+          <td>
+            <select>
+              <option value="bi-weekly">Bi-Weekly</option>
+              <option value="once">Once</option>
+            </select>
+          </td>
+        </tr>
+        <tr id="deduction-section">
+          <td>Pre-Tax Deduction:</td>
+          <td>
+            <input type="text" placeholder="n/a" />
+            <input type="text" placeholder="%" />
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><button>Add Income</button></td>
+        </tr>
+      </table>
+    </div>
+    <div class="income">
+      <p class="header-text">Income</p>
+      <div class="gray-box">
+        <div class="row-header">
+          <div class="left">
+            <p>Item</p>
+          </div>
+          <div class="right">
+            <p>Bi-Weekly</p>
+            <p>Monthly</p>
+            <p>Yearly</p>
+          </div>
+        </div>
+        <div class="rows">
+          <div class="row">
+            <div class="left">
+              <p>Gross Income</p>
+            </div>
+            <div class="right">
+              <div class="dollar">
+                <p>$</p><span>0.00</span>
+              </div>
+              <div class="dollar">
+                <p>$</p><span>0.00</span>
+              </div>
+              <div class="dollar">
+                <p>$</p><span>0.00</span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="left">
+              <p>Pre-Tax Deduction</p>
+            </div>
+            <div class="right">
+              <div class="dollar">
+                <p>$</p><span>0.00</span>
+              </div>
+              <div class="dollar">
+                <p>$</p><span>0.00</span>
+              </div>
+              <div class="dollar">
+                <p>$</p><span>0.00</span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="left">
+              <p>Social Security</p>
+            </div>
+            <div class="right">
+              <div class="dollar">
+                <p>$</p><span>0.00</span>
+              </div>
+              <div class="dollar">
+                <p>$</p><span>0.00</span>
+              </div>
+              <div class="dollar">
+                <p>$</p><span>0.00</span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="left">
+              <p>Medicare</p>
+            </div>
+            <div class="right">
+              <div class="dollar">
+                <p>$</p><span>0.00</span>
+              </div>
+              <div class="dollar">
+                <p>$</p><span>0.00</span>
+              </div>
+              <div class="dollar">
+                <p>$</p><span>0.00</span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="left">
+              <p>Withholding</p>
+            </div>
+            <div class="right">
+              <div class="dollar">
+                <p>$</p><span>0.00</span>
+              </div>
+              <div class="dollar">
+                <p>$</p><span>0.00</span>
+              </div>
+              <div class="dollar">
+                <p>$</p><span>0.00</span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="left">
+              <p>State Tax</p>
+            </div>
+            <div class="right">
+              <div class="dollar">
+                <p>$</p><span>0.00</span>
+              </div>
+              <div class="dollar">
+                <p>$</p><span>0.00</span>
+              </div>
+              <div class="dollar">
+                <p>$</p><span>0.00</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row-total">
+          <div class="left">
+            <p>Net Income</p>
+          </div>
+          <div class="right">
+            <div class="dollar">
+              <p>$</p><span>0.00</span>
+            </div>
+            <div class="dollar">
+              <p>$</p><span>0.00</span>
+            </div>
+            <div class="dollar">
+              <p>$</p><span>0.00</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sources">
+        <div ng-repeat="inc in incomes" class="source">
+          <p>{{inc}}</p>
+        </div>
+        <div class="source-img">
+          <img src="../src/add.png" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="loan-section">
+    <div class="loan-form">
+      <table>
+        <tr>
+          <td>Payee:</td>
+          <td><input type="text" /></td>
+        </tr>
+        <tr>
+          <td>Initial Balance:</td>
+          <td><input type="text" /></td>
+        </tr>
+        <tr>
+          <td>Monthly Payment:</td>
+          <td><input type="text" /></td>
+        </tr>
+        <tr>
+          <td>Rate:</td>
+          <td><input type="text" /></td>
+        </tr>
+        <tr>
+          <td>Term:</td>
+          <td><input type="text" /></td>
+        </tr>
+        <tr>
+          <td>First Payment:</td>
+          <td><input type="date" /></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><button>Add Loan</button></td>
+        </tr>
+      </table>
+    </div>
+    <div class="loans">
+      <p class="header-text">Loans</p>
+      <div class="gray-box">
+        <div class="row-header">
+          <div class="left">
+            <p>Item</p>
+          </div>
+          <div class="right">
+            <p>Monthly</p>
+          </div>
+        </div>
+        <div class="rows">
+          <div class="row">
+            <div class="left">
+              <p>Principal</p>
+            </div>
+            <div class="right">
+              <div class="dollar">
+                <p>$</p><span>0.00</span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="left">
+              <p>Interest</p>
+            </div>
+            <div class="right">
+              <div class="dollar">
+                <p>$</p><span>0.00</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row-total">
+          <div class="left">
+            <p>After P/I</p>
+          </div>
+          <div class="right">
+            <div class="dollar">
+              <p>$</p><span>0.00</span>
+            </div>
+          </div>
+        </div>
+        <div class="total-remaining">
+          <div class="left">
+            <p>Total Outgoing</p>
+          </div>
+          <div class="right">
+            <div class="dollar">
+              <p>$</p><span>0.00</span>
+            </div>
+          </div>
+        </div>
+        <div class="total-remaining">
+          <div class="left">
+            <p>Total Remaining</p>
+          </div>
+          <div class="right">
+            <div class="dollar">
+              <p>$</p><span>0.00</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sources">
+        <div ng-repeat="loan in loans" class="source">
+          <p>{{loan}}</p>
+        </div>
+        <div class="source-img">
+          <img src="../src/add.png" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="expense-section">
+    <div class="expense-form">
+      <table>
+        <tr>
+          <td>Name</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>$0.00</td>
+          <td>1 of 6</td>
+        </tr>
+        <tr>
+          <td>
+            <select>
+              <option>
+              </option>
+            </select>
+          </td>
+          <td><input type="text" placeholder="new category..." /></td>
+        </tr>
+        <tr>
+          <td>
+            <select>
+              <option>
+              </option>
+            </select>
+          </td>
+          <td><input type="text" placeholder="new subcategory..." /></td>
+        </tr>
+        <tr>
+          <td><input id="new-rule" type="text" placeholder="new rule..." /></td>
+          <td class="rule-section">
+            <select id="rule-condition">
+              <option></option>
+              <option value=">">></option>
+              <option value="<"><</option>
+            </select>
+            <input id="rule-amount" type="text" placeholder="amount" />
+          </td>
+        </tr>
+        <tr>
+          <td id="checkbox-section">
+            <input id="checkbox-1" type="checkbox" />
+            <label for="checkbox-1">
+              <span>remember</span>
+            </label>
+          </td>
+          <td><button>Add Expense</button></td>
+        </tr>
+      </table>
+    </div>
+    <div class="expenses">
+      <p class="header-text">Expenses</p>
+      <div class="gray-box">
+        <div class="row-header">
+          <div class="left">
+            <p>Category</p>
+          </div>
+          <div class="middle">
+            <p>Habit</p>
+          </div>
+          <div class="right">
+            <p>/Day</p>
+            <p>/Month</p>
+            <p>/Year</p>
+          </div>
+        </div>
+        <div class="rows">
+          <div ng-repeat="category in expCategories" class="expItem">
+            <div class="row">
+              <div class="left">
+                <p>{{category}}</p>
+              </div>
+              <div class="middle">
+                <div class="dollar">
+                  <p>$</p><span>0.00</span>
+                </div>
+                <div class="percent">
+                  <span>0</span><p>%</p>
+                </div>
+              </div>
+              <div class="right">
+                <div class="dollar">
+                  <p>$</p><span>0.00</span>
+                </div>
+                <div class="dollar">
+                  <p>$</p><span>0.00</span>
+                </div>
+                <div class="dollar">
+                  <p>$</p><span>0.00</span>
+                </div>
+              </div>
+            </div>
+            <div ng-repeat="subcategory in category" class="row">
+              <div class="left">
+                <p>{{subcategory}}</p>
+              </div>
+              <div class="middle">
+                <div class="dollar">
+                  <p>$</p><span>0.00</span>
+                </div>
+                <div class="percent">
+                  <span>0</span><p>%</p>
+                </div>
+              </div>
+              <div class="right">
+                <div class="dollar">
+                  <p>$</p><span>0.00</span>
+                </div>
+                <div class="dollar">
+                  <p>$</p><span>0.00</span>
+                </div>
+                <div class="dollar">
+                  <p>$</p><span>0.00</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row-total">
+          <div class="left">
+            <p>Total</p>
+          </div>
+          <div class="middle">
+            <div class="dollar">
+              <p>$</p><span>0.00</span>
+            </div>
+          </div>
+          <div class="right">
+            <div class="dollar">
+              <p>$</p><span>0.00</span>
+            </div>
+            <div class="dollar">
+              <p>$</p><span>0.00</span>
+            </div>
+            <div class="dollar">
+              <p>$</p><span>0.00</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sources">
+        <div class="source">
+          <p>Manage Rules</p>
+        </div>
+        <div class="source-img">
+          <img src="../src/add.png" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="projection">
+    <p class="header-text">Projections - This Year</p>
+    <div class="gray-box">
+      <div class="month-boxes">
+        <div class="month-box">
+          <p>January</p>
+          <div class="dollar">
+            <p>$</p><span>0.00</span>
+          </div>
+        </div>
+        <div class="month-box">
+          <p>February</p>
+          <div class="dollar">
+            <p>$</p><span>0.00</span>
+          </div>
+        </div>
+        <div class="month-box">
+          <p>March</p>
+          <div class="dollar">
+            <p>$</p><span>0.00</span>
+          </div>
+        </div>
+        <div class="month-box">
+          <p>April</p>
+          <div class="dollar">
+            <p>$</p><span>0.00</span>
+          </div>
+        </div>
+        <div class="month-box">
+          <p>May</p>
+          <div class="dollar">
+            <p>$</p><span>0.00</span>
+          </div>
+        </div>
+        <div class="month-box">
+          <p>June</p>
+          <div class="dollar">
+            <p>$</p><span>0.00</span>
+          </div>
+        </div>
+        <div class="month-box">
+          <p>July</p>
+          <div class="dollar">
+            <p>$</p><span>0.00</span>
+          </div>
+        </div>
+        <div class="month-box">
+          <p>August</p>
+          <div class="dollar">
+            <p>$</p><span>0.00</span>
+          </div>
+        </div>
+        <div class="month-box">
+          <p>September</p>
+          <div class="dollar">
+            <p>$</p><span>0.00</span>
+          </div>
+        </div>
+        <div class="month-box">
+          <p>October</p>
+          <div class="dollar">
+            <p>$</p><span>0.00</span>
+          </div>
+        </div>
+        <div class="month-box">
+          <p>November</p>
+          <div class="dollar">
+            <p>$</p><span>0.00</span>
+          </div>
+        </div>
+        <div class="month-box">
+          <p>December</p>
+          <div class="dollar">
+            <p>$</p><span>0.00</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="projection">
+    <p class="header-text">Projections - <span>2018</span></p>
+    <div class="gray-box">
+      <div class="month-boxes">
+        <div class="month-box">
+          <p>January</p>
+          <div class="dollar">
+            <p>$</p><span>0.00</span>
+          </div>
+        </div>
+        <div class="month-box">
+          <p>February</p>
+          <div class="dollar">
+            <p>$</p><span>0.00</span>
+          </div>
+        </div>
+        <div class="month-box">
+          <p>March</p>
+          <div class="dollar">
+            <p>$</p><span>0.00</span>
+          </div>
+        </div>
+        <div class="month-box">
+          <p>April</p>
+          <div class="dollar">
+            <p>$</p><span>0.00</span>
+          </div>
+        </div>
+        <div class="month-box">
+          <p>May</p>
+          <div class="dollar">
+            <p>$</p><span>0.00</span>
+          </div>
+        </div>
+        <div class="month-box">
+          <p>June</p>
+          <div class="dollar">
+            <p>$</p><span>0.00</span>
+          </div>
+        </div>
+        <div class="month-box">
+          <p>July</p>
+          <div class="dollar">
+            <p>$</p><span>0.00</span>
+          </div>
+        </div>
+        <div class="month-box">
+          <p>August</p>
+          <div class="dollar">
+            <p>$</p><span>0.00</span>
+          </div>
+        </div>
+        <div class="month-box">
+          <p>September</p>
+          <div class="dollar">
+            <p>$</p><span>0.00</span>
+          </div>
+        </div>
+        <div class="month-box">
+          <p>October</p>
+          <div class="dollar">
+            <p>$</p><span>0.00</span>
+          </div>
+        </div>
+        <div class="month-box">
+          <p>November</p>
+          <div class="dollar">
+            <p>$</p><span>0.00</span>
+          </div>
+        </div>
+        <div class="month-box">
+          <p>December</p>
+          <div class="dollar">
+            <p>$</p><span>0.00</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="projection">
+    <p class="header-text">Projections - <span>2019</span></p>
+    <div class="gray-box">
+      <div class="month-boxes">
+        <div class="month-box">
+          <p>January</p>
+          <div class="dollar">
+            <p>$</p><span>0.00</span>
+          </div>
+        </div>
+        <div class="month-box">
+          <p>February</p>
+          <div class="dollar">
+            <p>$</p><span>0.00</span>
+          </div>
+        </div>
+        <div class="month-box">
+          <p>March</p>
+          <div class="dollar">
+            <p>$</p><span>0.00</span>
+          </div>
+        </div>
+        <div class="month-box">
+          <p>April</p>
+          <div class="dollar">
+            <p>$</p><span>0.00</span>
+          </div>
+        </div>
+        <div class="month-box">
+          <p>May</p>
+          <div class="dollar">
+            <p>$</p><span>0.00</span>
+          </div>
+        </div>
+        <div class="month-box">
+          <p>June</p>
+          <div class="dollar">
+            <p>$</p><span>0.00</span>
+          </div>
+        </div>
+        <div class="month-box">
+          <p>July</p>
+          <div class="dollar">
+            <p>$</p><span>0.00</span>
+          </div>
+        </div>
+        <div class="month-box">
+          <p>August</p>
+          <div class="dollar">
+            <p>$</p><span>0.00</span>
+          </div>
+        </div>
+        <div class="month-box">
+          <p>September</p>
+          <div class="dollar">
+            <p>$</p><span>0.00</span>
+          </div>
+        </div>
+        <div class="month-box">
+          <p>October</p>
+          <div class="dollar">
+            <p>$</p><span>0.00</span>
+          </div>
+        </div>
+        <div class="month-box">
+          <p>November</p>
+          <div class="dollar">
+            <p>$</p><span>0.00</span>
+          </div>
+        </div>
+        <div class="month-box">
+          <p>December</p>
+          <div class="dollar">
+            <p>$</p><span>0.00</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
