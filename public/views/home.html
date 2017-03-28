@@ -313,52 +313,50 @@
   </div>
   <div class="expense-section">
     <div class="expense-form">
+      <p>{{curExpense.description}}</p>
+      <span>
+        <p>${{curExpense.amount}}</p>
+        <p>{{curExpense.date}}</p>
+        <p>{{curExpenseCount}} of {{curExpenseTotal}}</p>
+      </span>
       <table>
         <tr>
-          <td>Name</td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>$0.00</td>
-          <td>1 of 6</td>
-        </tr>
-        <tr>
           <td>
-            <select>
+            <select ng-model="selectCategory">
               <option>
               </option>
             </select>
           </td>
-          <td><input type="text" placeholder="new category..." /></td>
+          <td><input ng-model="inputCategory" type="text" placeholder="new category..." /></td>
         </tr>
         <tr>
           <td>
-            <select>
+            <select ng-model="selectSubcategory">
               <option>
               </option>
             </select>
           </td>
-          <td><input type="text" placeholder="new subcategory..." /></td>
+          <td><input ng-model="inputSubcategory" type="text" placeholder="new subcategory..." /></td>
         </tr>
         <tr>
-          <td><input id="new-rule" type="text" placeholder="new rule..." /></td>
+          <td><input ng-model="newKeyword" id="new-rule" type="text" placeholder="new rule..." /></td>
           <td class="rule-section">
-            <select id="rule-condition">
+            <select ng-model="newCondition" id="rule-condition">
               <option></option>
               <option value=">">></option>
               <option value="<"><</option>
             </select>
-            <input id="rule-amount" type="text" placeholder="amount" />
+            <input ng-model="newConditionAmount" id="rule-amount" type="text" placeholder="amount" />
           </td>
         </tr>
         <tr>
           <td id="checkbox-section">
-            <input id="checkbox-1" type="checkbox" />
+            <input ng-model="rememberRule" id="checkbox-1" type="checkbox" />
             <label for="checkbox-1">
               <span>remember</span>
             </label>
           </td>
-          <td><button>Add Expense</button></td>
+          <td><button ng-click="addExpense()">Add Expense</button></td>
         </tr>
       </table>
     </div>
@@ -456,7 +454,8 @@
         <div class="source">
           <p>Manage Rules</p>
         </div>
-        <div class="source-img">
+        <input id="csvButton" type="file" accept=".csv" upload />
+        <div onclick="document.getElementById('csvButton').click();" class="source-img">
           <img src="../src/add.png" />
         </div>
       </div>

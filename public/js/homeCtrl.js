@@ -5,6 +5,11 @@ angular.module('budget').controller('homeCtrl',
           console.log(data);
           $scope.incomes = data.incomes;
           $scope.loans = data.loans;
+          $scope.expenses = data.expenses;
+          $scope.keywords = [];
+          data.expenses.forEach((exp, i) => {
+            $scope.keywords.push({keyword: exp.keyword, category: exp.category, subcategory: exp.subcategory});
+          });
         });
     })();
     $scope.addIncome = (source, amount, length, hours, first, pattern, deduction, percent) => {
@@ -263,5 +268,131 @@ angular.module('budget').controller('homeCtrl',
         $scope.clickedLoan = $('#source-img-2');
         $scope.clickedLoan.css('background', '#2B3151');
       }
+    }
+    $scope.expIter = 0;
+    $scope.saveExpenses = (expenses, filename) => {
+      console.log(expenses);
+      $scope.expenseArray = expenses;
+      $scope.curExpense = {
+        description: expenses[$scope.expIter+4].replace(/['"]+/g, ''),
+        amount: Math.abs(Number(expenses[$scope.expIter+1].replace(/['"]+/g, ''))),
+        date: expenses[$scope.expIter].replace(/['"]+/g, ''),
+        category: null,
+        subcategory: null,
+        keyword: null,
+        condition: null,
+        conditionAmount: null,
+        rememberRule: false
+      }
+      $scope.curExpenseCount = 1;
+      $scope.curExpenseTotal = expenses.length /5;
+      var keyDesc = $scope.curExpense.description.toLowerCase();
+      while (keyDesc.indexOf('online payment') >= 0) {
+        $scope.expIter += 5; $scope.curExpenseCount++;
+        $scope.curExpense.description = expenseArray[$scope.expIter+4].replace(/['"]+/g, '');
+        $scope.curExpense.amount = expenseArray[$scope.expIter+1].replace(/['"]+/g, '');
+        $scope.curExpense.date = expenseArray[$scope.expIter].replace(/['"]+/g, '');
+        keyDesc = $scope.curExpense.description.toLowerCase();
+      }
+      $scope.keywords.forEach((key) => {
+        if (keyDesc.indexOf(key.keyword.toLowerCase()) >= 0) {
+          $scope.curExpense.category = key.category;
+          $scope.curExpense.subcategory = key.subcategory;
+          $scope.addExpense();
+        }
+      });
+    }
+    var newExpenses = [];
+    $scope.addExpense = () => {
+
+      if ($scope.selectCategory) {
+        $scope.curExpense.category = $scope.selectCategory;
+      } else if ($scope.inputCategory) {
+        $scope.curExpense.category = $scope.inputCategory;
+      } else {
+        $scope.curExpense.category = 'Unknown';
+      }
+      if ($scope.selectSubcategory) {
+        $scope.curExpense.subcategory = $scope.selectSubcategory;
+      } else if ($scope.inputSubcategory) {
+        $scope.curExpense.subcategory = $scope.inputSubcategory;
+      } else {
+        $scope.curExpense.subcategory = 'Unknown';
+      }
+      if ($scope.keyword) {
+        $scope.curExpense.keyword = $scope.keyword;
+      }
+      if ($scope.condition) {
+        $scope.curExpense.condition = $scope.condition;
+      }
+      if ($scope.conditionAmount) {
+        $scope.curExpense.conditionAmount = $scope.conditionAmount;
+      }
+      if ($scope.rememberRule) {
+        $scope.curExpense.rememberRule = $scope.rememberRule;
+      }
+      var isDuplicateExp = false;
+      $scope.expenses.forEach((exp, i) => {
+        if (
+          exp.description === $scope.curExpense.description &&
+          exp.amount === $scope.curExpense.amount &&
+          exp.date.toString() === (new Date($scope.curExpense.date)).toString()
+        ) {
+          isDuplicateExp = true;
+        }
+      });
+      if (!isDuplicateExp) {
+        $scope.curExpense.date = new Date($scope.curExpense.date);
+        $scope.expenses.push($scope.curExpense);
+        if ($scope.keyword && $scope.rememberRule) {
+          $scope.keywords.push($scope.keyword);
+        }
+        newExpenses.push($scope.curExpense);
+      }
+      if ($scope.curExpenseCount === $scope.curExpenseTotal) {
+        //send to mongodb
+        $('.expense-form').css('display', 'none');
+        $scope.expIter = 0;
+      } else {
+        $scope.curExpenseCount++;
+        $scope.expIter += 5;
+        $scope.curExpense = {
+          description: $scope.expenseArray[$scope.expIter+4].replace(/['"]+/g, ''),
+          amount: Math.abs(Number($scope.expenseArray[$scope.expIter+1].replace(/['"]+/g, ''))),
+          date: $scope.expenseArray[$scope.expIter].replace(/['"]+/g, ''),
+          category: null,
+          subcategory: null,
+          keyword: null,
+          condition: null,
+          conditionAmount: null,
+          rememberRule: false
+        }
+        var keyDesc = $scope.curExpense.description.toLowerCase();
+        while (keyDesc.indexOf('online payment') >= 0) {
+          $scope.expIter += 5; $scope.curExpenseCount++;
+          $scope.curExpense.description = expenseArray[$scope.expIter+4].replace(/['"]+/g, '');
+          $scope.curExpense.amount = expenseArray[$scope.expIter+1].replace(/['"]+/g, '');
+          $scope.curExpense.date = expenseArray[$scope.expIter].replace(/['"]+/g, '');
+          keyDesc = $scope.curExpense.description.toLowerCase();
+        }
+        $scope.expenses.forEach((exp, i) => {
+          if (
+            exp.description === $scope.curExpense.description &&
+            exp.amount === $scope.curExpense.amount &&
+            exp.date.toString() === (new Date($scope.curExpense.date)).toString()
+          ) {
+            $scope.addExpense();
+          }
+        });
+        $scope.keywords.forEach((key) => {
+          if (keyDesc.indexOf(key.keyword.toLowerCase()) >= 0) {
+            $scope.curExpense.category = key.category;
+            $scope.curExpense.subcategory = key.subcategory;
+            $scope.addExpense();
+          }
+        });
+        
+      }
+
     }
 });

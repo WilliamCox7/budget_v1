@@ -205,6 +205,14 @@ button:focus {
 .home .expense-form select {
   width: 100%;
 }
+.home .expense-form p {
+  padding: 4px 4px;
+}
+.home .expense-form span {
+  width: 103%;
+  display: flex;
+  justify-content: space-between;
+}
 .home .expense-form td:nth-child(1) {
   text-align: left;
 }
@@ -248,6 +256,9 @@ button:focus {
   width: 800px;
   display: flex;
   flex-direction: column;
+}
+.home #csvButton {
+  display: none;
 }
 .home .projection {
   width: 800px;
