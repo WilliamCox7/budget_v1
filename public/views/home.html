@@ -223,10 +223,17 @@
         </tr>
         <tr>
           <td></td>
-          <td><button ng-click="addLoan(
-            loanPayee, loanBalance, loanPayment,
-            loanRate, loanTerm, loanFirst
-          )">Add Loan</button></td>
+          <td>
+            <button id="add-loan-btn" ng-click="addLoan(
+              loanPayee, loanBalance, loanPayment,
+              loanRate, loanTerm, loanFirst
+            )">Add Loan</button>
+            <button id="update-loan-btn" ng-click="updateLoan(
+              loanPayee, loanBalance, loanPayment,
+              loanRate, loanTerm, loanFirst
+            )">Update</button>
+            <button id="remove-loan-btn" ng-click="removeLoan(loanPayee)">Remove</button>
+          </td>
         </tr>
       </table>
     </div>
@@ -295,10 +302,10 @@
         </div>
       </div>
       <div class="sources">
-        <div ng-repeat="loan in loans" class="source">
-          <p>{{loan.payee}}</p>
+        <div ng-click="getLoan(loan.payee, $event)" ng-repeat="loan in loans" class="source">
+          {{loan.payee}}
         </div>
-        <div class="source-img">
+        <div ng-click="newLoan($event)" id="source-img-2" class="source-img">
           <img src="../src/add.png" />
         </div>
       </div>

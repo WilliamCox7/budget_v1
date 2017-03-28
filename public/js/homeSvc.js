@@ -39,6 +39,14 @@ angular.module('budget').service('homeSvc',
         return result.data;
       });
     }
+    this.removeLoan = (payee) => {
+      return $http({
+        method: 'DELETE',
+        url: '/removeLoan/' + payee
+      }).then((result) => {
+        return result.data;
+      });
+    }
     this.updateIncome = (_id, source, amount, length, hours, first, pattern, deduction, percent) => {
       return $http({
         method: 'PUT',
@@ -46,6 +54,18 @@ angular.module('budget').service('homeSvc',
         data: {
           _id: _id, source: source, amount: amount, length: length, hours: hours,
           first: first, pattern: pattern, deduction: deduction, percent: percent
+        }
+      }).then((result) => {
+        return result.data;
+      });
+    }
+    this.updateLoan = (_id, payee, balance, payment, rate, term, first) => {
+      return $http({
+        method: 'PUT',
+        url: '/updateLoan',
+        data: {
+          _id: _id, payee: payee, balance: balance, payment: payment,
+          rate: rate, term: term, first: first
         }
       }).then((result) => {
         return result.data;

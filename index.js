@@ -115,6 +115,24 @@ app.post('/addIncome', function(req, res) {
   });
 });
 
+app.post('/addLoan', function(req, res) {
+  MongoClient.connect(url, function(err, db) {
+    var collection = db.collection("loans");
+    collection.insertOne({
+      payee: req.body.payee,
+      balance: req.body.balance,
+      payment: req.body.payment,
+      rate: req.body.rate,
+      term: req.body.term,
+      first: req.body.first
+    }, function(err, result) {
+      assert.equal(err, null);
+      res.status(200).send("Added Loan");
+      db.close();
+    });
+  });
+});
+
 app.delete('/removeIncome/:source', function(req, res) {
   MongoClient.connect(url, function(err, db) {
     var collection = db.collection("incomes");
@@ -123,6 +141,19 @@ app.delete('/removeIncome/:source', function(req, res) {
     }, function(err, result) {
       assert.equal(err, null);
       res.status(200).send("Removed Income");
+      db.close();
+    });
+  });
+});
+
+app.delete('/removeLoan/:payee', function(req, res) {
+  MongoClient.connect(url, function(err, db) {
+    var collection = db.collection("loans");
+    collection.remove({
+      payee: req.params.payee
+    }, function(err, result) {
+      assert.equal(err, null);
+      res.status(200).send("Removed Loan");
       db.close();
     });
   });
@@ -150,19 +181,21 @@ app.put('/updateIncome', function(req, res) {
   });
 });
 
-app.post('/addLoan', function(req, res) {
+app.put('/updateLoan', function(req, res) {
   MongoClient.connect(url, function(err, db) {
     var collection = db.collection("loans");
-    collection.insertOne({
-      payee: req.body.payee,
-      balance: req.body.balance,
-      payment: req.body.payment,
-      rate: req.body.rate,
-      term: req.body.term,
-      first: req.body.first
-    }, function(err, result) {
+    collection.updateOne({
+      '_id': new mongodb.ObjectID(req.body._id)
+    }, { $set: {
+      'payee': req.body.payee,
+      'balance': req.body.balance,
+      'payment': req.body.payment,
+      'rate': req.body.rate,
+      'term': req.body.term,
+      'first': req.body.first
+    }}, function(err, result) {
       assert.equal(err, null);
-      res.status(200).send("Added Loan");
+      res.status(200).send("Updated Loan");
       db.close();
     });
   });

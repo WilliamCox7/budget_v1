@@ -133,7 +133,16 @@ button:focus {
 .home .expense-form #update-inc-btn,
 .home .income-form #remove-inc-btn,
 .home .loan-form #remove-inc-btn,
-.home .expense-form #remove-inc-btn {
+.home .expense-form #remove-inc-btn,
+.home .income-form #add-loan-btn,
+.home .loan-form #add-loan-btn,
+.home .expense-form #add-loan-btn,
+.home .income-form #update-loan-btn,
+.home .loan-form #update-loan-btn,
+.home .expense-form #update-loan-btn,
+.home .income-form #remove-loan-btn,
+.home .loan-form #remove-loan-btn,
+.home .expense-form #remove-loan-btn {
   display: none;
   margin-left: 22px;
 }

@@ -31,6 +31,17 @@ angular.module('budget').controller('homeCtrl',
       if (payee) {
         homeSvc.addLoan(payee, balance, payment, rate, term, first).then((result) => {
           console.log(result);
+          $('.loan-form').css('display', 'none');
+          $('#add-loan-btn').css('display', 'none');
+          $scope.clickedLoan.css('background', 'slategray');
+          $scope.loans.push({
+            payee: payee,
+            balance: balance,
+            payment: payment,
+            rate: rate,
+            term: term,
+            first: first
+          });
         });
       }
     }
@@ -73,6 +84,43 @@ angular.module('budget').controller('homeCtrl',
         });
       }
     }
+    $scope.getLoan = (payee, $event) => {
+      var clickedLoan = $scope.clickedLoan;
+      var targetLoan = $($event.target);
+      if ($scope.clickedLoan) {
+        clickedLoan = clickedLoan[0].innerText;
+        targetLoan = targetLoan[0].innerText;
+      }
+      if (clickedLoan === targetLoan) {
+        $('.loan-form').css('display', 'none');
+        $('#update-loan-btn').css('display', 'none');
+        $('#remove-loan-btn').css('display', 'none');
+        $('#add-loan-btn').css('display', 'none');
+        $scope.clickedLoan.css('background', 'slategray');
+        $scope.clickedLoan = undefined;
+      } else {
+        $scope.loans.forEach((loan, i) => {
+          if (loan.payee === payee) {
+            if ($scope.clickedLoan) {
+              $scope.clickedLoan.css('background', 'slategray');
+            }
+            $scope.loanId = loan._id;
+            $scope.loanPayee = loan.payee;
+            $scope.loanBalance = loan.balance;
+            $scope.loanPayment = loan.payment;
+            $scope.loanRate = loan.rate;
+            $scope.loanTerm = loan.term;
+            $scope.loanFirst = loan.first;
+            $('.loan-form').css('display', 'block');
+            $('#update-loan-btn').css('display', 'block');
+            $('#remove-loan-btn').css('display', 'block');
+            $('#add-loan-btn').css('display', 'none');
+            $scope.clickedLoan = $($event.target);
+            $scope.clickedLoan.css('background', '#2B3151');
+          }
+        });
+      }
+    }
     $scope.removeIncome = (source) => {
       homeSvc.removeIncome(source).then((result) => {
         console.log(result);
@@ -83,6 +131,20 @@ angular.module('budget').controller('homeCtrl',
         $scope.incomes.forEach((income, i) => {
           if (income.source === source) {
             $scope.incomes.splice(i, 1);
+          }
+        });
+      });
+    }
+    $scope.removeLoan = (payee) => {
+      homeSvc.removeLoan(payee).then((result) => {
+        console.log(result);
+        $('.loan-form').css('display', 'none');
+        $('#update-loan-btn').css('display', 'none');
+        $('#remove-loan-btn').css('display', 'none');
+        $('#add-loan-btn').css('display', 'none');
+        $scope.loans.forEach((loan, i) => {
+          if (loan.payee === payee) {
+            $scope.loans.splice(i, 1);
           }
         });
       });
@@ -107,6 +169,29 @@ angular.module('budget').controller('homeCtrl',
               pattern: pattern,
               deduction: deduction,
               percent: percent
+            });
+          }
+        });
+      });
+    }
+    $scope.updateLoan = (payee, balance, payment, rate, term, first) => {
+      homeSvc.updateLoan($scope.loanId, payee, balance, payment, rate, term, first).then((result) => {
+        console.log(result);
+        $('.loan-form').css('display', 'none');
+        $('#update-loan-btn').css('display', 'none');
+        $('#remove-loan-btn').css('display', 'none');
+        $('#add-loan-btn').css('display', 'none');
+        $scope.loans.forEach((loan, i) => {
+          if (loan._id === $scope.loanId) {
+            $scope.loans.splice(i, 1);
+            $scope.loans.push({
+              _id: $scope.loanId,
+              payee: payee,
+              balance: balance,
+              payment: payment,
+              rate: rate,
+              term: term,
+              first: first
             });
           }
         });
@@ -144,6 +229,39 @@ angular.module('budget').controller('homeCtrl',
         $('#remove-inc-btn').css('display', 'none');
         $scope.clickedDiv = $('#source-img-1');
         $scope.clickedDiv.css('background', '#2B3151');
+      }
+    }
+    $scope.newLoan = ($event) => {
+      var clickedLoan = $scope.clickedLoan;
+      var targetLoan = $($event.target);
+      if ($scope.clickedLoan) {
+        clickedLoan = clickedLoan[0].innerText;
+        targetLoan = targetLoan[0].innerText;
+      }
+      if (clickedLoan === targetLoan) {
+        $('.loan-form').css('display', 'none');
+        $('#update-loan-btn').css('display', 'none');
+        $('#remove-loan-btn').css('display', 'none');
+        $('#add-loan-btn').css('display', 'none');
+        $scope.clickedLoan.css('background', 'slategray');
+        $scope.clickedLoan = undefined;
+      } else {
+        if ($scope.clickedLoan) {
+          $scope.clickedLoan.css('background', 'slategray');
+        }
+        $scope.loanId = null;
+        $scope.loanPayee = null;
+        $scope.loanBalance = null;
+        $scope.loanPayment = null;
+        $scope.loanRate = null;
+        $scope.loanTerm = null;
+        $scope.loanFirst = null;
+        $('.loan-form').css('display', 'block');
+        $('#add-loan-btn').css('display', 'block');
+        $('#update-loan-btn').css('display', 'none');
+        $('#remove-loan-btn').css('display', 'none');
+        $scope.clickedLoan = $('#source-img-2');
+        $scope.clickedLoan.css('background', '#2B3151');
       }
     }
 });
