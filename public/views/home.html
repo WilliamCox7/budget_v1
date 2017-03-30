@@ -323,7 +323,7 @@
         <tr>
           <td>
             <select ng-model="selectCategory">
-              <option>
+              <option ng-repeat="option in categories" value="{{option}}">{{option}}
               </option>
             </select>
           </td>
@@ -332,7 +332,7 @@
         <tr>
           <td>
             <select ng-model="selectSubcategory">
-              <option>
+              <option ng-repeat="suboption in subcategories" value="{{suboption}}">{{suboption}}
               </option>
             </select>
           </td>

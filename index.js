@@ -8,12 +8,15 @@ var exec = require('child_process').execFile;
 var MongoClient = require('mongodb').MongoClient;
 var mongodb = require('mongodb');
 var assert = require('assert');
+var async = require('async');
+var queue = require('queue');
 var LocalStrategy = require('passport-local').Strategy;
 var less = require('less');
 var fs = require('fs');
 var port = 3000;
 
 var app = module.exports = express();
+var q = queue();
 
 app.use(session({ secret: config.secret, saveUninitialized: false, resave: false }));
 app.use(passport.initialize());
@@ -131,6 +134,38 @@ app.post('/addLoan', function(req, res) {
       db.close();
     });
   });
+});
+
+var q = async.queue(function(task, callback) {
+  var doc = task.doc;
+  MongoClient.connect(url, function(err, db) {
+    var collection = db.collection("expenses");
+    collection.insertOne({
+      description: doc.description,
+      amount: doc.amount,
+      date: doc.date,
+      category: doc.category,
+      subcategory: doc.subcategory,
+      keyword: doc.keyword,
+      condition: doc.condition,
+      conditionAmount: doc.conditionAmount
+    }, function(err, result) {
+      assert.equal(err, null);
+      callback();
+      db.close();
+    });
+  });
+});
+
+app.post('/addExpenses', function(req, res) {
+  for (var doc in req.body.expenses) {
+    q.push({ doc: req.body.expenses[doc] }, function(err) {
+      if (err) console.log(err);
+    });
+  }
+  q.drain = function() {
+    res.status(200).send('Added Expenses');
+  }
 });
 
 app.delete('/removeIncome/:source', function(req, res) {

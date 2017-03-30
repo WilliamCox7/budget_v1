@@ -6,12 +6,31 @@ angular.module('budget').controller('homeCtrl',
           $scope.incomes = data.incomes;
           $scope.loans = data.loans;
           $scope.expenses = data.expenses;
-          $scope.keywords = [];
-          data.expenses.forEach((exp, i) => {
-            $scope.keywords.push({keyword: exp.keyword, category: exp.category, subcategory: exp.subcategory});
+          $scope.categories = [];
+          $scope.subcategories = [];
+          $scope.rules = [];
+          $scope.expenses.forEach((exp) => {
+            if (exp.category && !already($scope.categories, exp.category)) { $scope.categories.push(exp.category); }
+            if (exp.subcategory && !already($scope.subcategories, exp.subcategory)) { $scope.subcategories.push(exp.subcategory); }
+            if (exp.condition || exp.conditionAmount || exp.keyword) {
+              $scope.rules.push({
+                keyword: exp.keyword,
+                category: exp.category,
+                subcategory: exp.subcategory,
+                condition: exp.condition,
+                conditionAmount: exp.conditionAmount
+              });
+            }
           });
         });
     })();
+    function already(arr, test) {
+      var isAlready = false;
+      arr.forEach((check) => {
+        if (check === test) { isAlready = true; }
+      });
+      return isAlready;
+    }
     $scope.addIncome = (source, amount, length, hours, first, pattern, deduction, percent) => {
       if (source) {
         homeSvc.addIncome(source, amount, length, hours, first, pattern, deduction, percent).then((result) => {
@@ -271,7 +290,7 @@ angular.module('budget').controller('homeCtrl',
     }
     $scope.expIter = 0;
     $scope.saveExpenses = (expenses, filename) => {
-      console.log(expenses);
+      var skipExpense = false;
       $scope.expenseArray = expenses;
       $scope.curExpense = {
         description: expenses[$scope.expIter+4].replace(/['"]+/g, ''),
@@ -281,8 +300,7 @@ angular.module('budget').controller('homeCtrl',
         subcategory: null,
         keyword: null,
         condition: null,
-        conditionAmount: null,
-        rememberRule: false
+        conditionAmount: null
       }
       $scope.curExpenseCount = 1;
       $scope.curExpenseTotal = expenses.length /5;
@@ -294,67 +312,106 @@ angular.module('budget').controller('homeCtrl',
         $scope.curExpense.date = expenseArray[$scope.expIter].replace(/['"]+/g, '');
         keyDesc = $scope.curExpense.description.toLowerCase();
       }
-      $scope.keywords.forEach((key) => {
-        if (keyDesc.indexOf(key.keyword.toLowerCase()) >= 0) {
-          $scope.curExpense.category = key.category;
-          $scope.curExpense.subcategory = key.subcategory;
-          $scope.addExpense();
+      $scope.expenses.forEach((exp, i) => {
+        if (
+          exp.description === $scope.curExpense.description &&
+          exp.amount === $scope.curExpense.amount &&
+          (new Date(exp.date)).toString() === (new Date($scope.curExpense.date)).toString()
+        ) {
+          skipExpense = true;
         }
       });
+      $scope.rules.forEach((rule) => {
+        if (keyDesc.indexOf(rule.keyword.toLowerCase()) >= 0) {
+          var saveCategories = false;
+          switch (rule.condition) {
+            case '>': if ($scope.curExpense.amount > rule.conditionAmount) { saveCategories = true; break; }
+            case '<': if ($scope.curExpense.amount < rule.conditionAmount) { saveCategories = true; break; }
+            default: saveCategories = true; break;
+          }
+          if (saveCategories) {
+            $scope.curExpense.category = rule.category;
+            $scope.curExpense.subcategory = rule.subcategory;
+            skipExpense = true;
+          }
+        }
+      });
+      if (skipExpense) {
+        $scope.addExpense();
+      }
     }
     var newExpenses = [];
     $scope.addExpense = () => {
 
-      if ($scope.selectCategory) {
-        $scope.curExpense.category = $scope.selectCategory;
-      } else if ($scope.inputCategory) {
+      var skipExpense = false;
+
+      //is it a new category/subcategory or old?
+      if ($scope.selectCategory) { $scope.curExpense.category = $scope.selectCategory; }
+      else if ($scope.inputCategory) {
         $scope.curExpense.category = $scope.inputCategory;
-      } else {
-        $scope.curExpense.category = 'Unknown';
+        if (!already($scope.categories, $scope.inputCategory)) { $scope.categories.push($scope.inputCategory); }
       }
-      if ($scope.selectSubcategory) {
-        $scope.curExpense.subcategory = $scope.selectSubcategory;
-      } else if ($scope.inputSubcategory) {
+      if ($scope.selectSubcategory) { $scope.curExpense.subcategory = $scope.selectSubcategory; }
+      else if ($scope.inputSubcategory) {
         $scope.curExpense.subcategory = $scope.inputSubcategory;
-      } else {
-        $scope.curExpense.subcategory = 'Unknown';
+        if (!already($scope.subcategories, $scope.inputSubcategory)) { $scope.subcategories.push($scope.inputSubcategory); }
       }
-      if ($scope.keyword) {
-        $scope.curExpense.keyword = $scope.keyword;
-      }
-      if ($scope.condition) {
-        $scope.curExpense.condition = $scope.condition;
-      }
-      if ($scope.conditionAmount) {
-        $scope.curExpense.conditionAmount = $scope.conditionAmount;
-      }
-      if ($scope.rememberRule) {
-        $scope.curExpense.rememberRule = $scope.rememberRule;
-      }
+
+      //save new rule information if there is any
+      if ($scope.newKeyword) { $scope.curExpense.keyword = $scope.newKeyword; }
+      if ($scope.newCondition) { $scope.curExpense.condition = $scope.newCondition; }
+      if ($scope.newConditionAmount) { $scope.curExpense.conditionAmount = $scope.newConditionAmount; }
+
+      //check if expense is a duplicate
       var isDuplicateExp = false;
       $scope.expenses.forEach((exp, i) => {
         if (
           exp.description === $scope.curExpense.description &&
           exp.amount === $scope.curExpense.amount &&
-          exp.date.toString() === (new Date($scope.curExpense.date)).toString()
+          (new Date(exp.date)).toString() === (new Date($scope.curExpense.date)).toString()
         ) {
           isDuplicateExp = true;
         }
       });
+
+      //if expense is new
       if (!isDuplicateExp) {
         $scope.curExpense.date = new Date($scope.curExpense.date);
-        $scope.expenses.push($scope.curExpense);
-        if ($scope.keyword && $scope.rememberRule) {
-          $scope.keywords.push($scope.keyword);
+        $scope.expenses.push($scope.curExpense); //save expense
+        if ($scope.newKeyword && $scope.rememberRule) {
+          $scope.rules.push({ //add new rule if there is one
+            keyword: $scope.newKeyword,
+            category: $scope.curExpense.category,
+            subcategory: $scope.curExpense.subcategory,
+            condition: $scope.newCondition,
+            conditionAmount: $scope.newConditionAmount
+          });
         }
+
+        //save to send to mongodb
         newExpenses.push($scope.curExpense);
+
+        //reset form
+        $scope.selectCategory = null;
+        $scope.inputCategory = null;
+        $scope.selectSubcategory = null;
+        $scope.inputSubcategory = null;
+        $scope.newKeyword = null;
+        $scope.newCondition = null;
+        $scope.newConditionAmount = null;
+        $scope.rememberRule = false;
       }
-      if ($scope.curExpenseCount === $scope.curExpenseTotal) {
-        //send to mongodb
+
+      //if it's the end of the expenses
+      $scope.curExpenseCount++;
+      if ($scope.curExpenseCount > $scope.curExpenseTotal) {
+        homeSvc.addExpenses(newExpenses).then((result) => {
+          console.log(result);
+        });
         $('.expense-form').css('display', 'none');
         $scope.expIter = 0;
-      } else {
-        $scope.curExpenseCount++;
+      } else { //if there are still more expenses
+        //get next expense
         $scope.expIter += 5;
         $scope.curExpense = {
           description: $scope.expenseArray[$scope.expIter+4].replace(/['"]+/g, ''),
@@ -367,6 +424,7 @@ angular.module('budget').controller('homeCtrl',
           conditionAmount: null,
           rememberRule: false
         }
+        //skip online payments
         var keyDesc = $scope.curExpense.description.toLowerCase();
         while (keyDesc.indexOf('online payment') >= 0) {
           $scope.expIter += 5; $scope.curExpenseCount++;
@@ -375,23 +433,40 @@ angular.module('budget').controller('homeCtrl',
           $scope.curExpense.date = expenseArray[$scope.expIter].replace(/['"]+/g, '');
           keyDesc = $scope.curExpense.description.toLowerCase();
         }
+
+        //check if duplicate and automatically move forward if so
         $scope.expenses.forEach((exp, i) => {
           if (
             exp.description === $scope.curExpense.description &&
             exp.amount === $scope.curExpense.amount &&
-            exp.date.toString() === (new Date($scope.curExpense.date)).toString()
+            (new Date(exp.date)).toString() === (new Date($scope.curExpense.date)).toString()
           ) {
-            $scope.addExpense();
+            skipExpense = true;
           }
         });
-        $scope.keywords.forEach((key) => {
-          if (keyDesc.indexOf(key.keyword.toLowerCase()) >= 0) {
-            $scope.curExpense.category = key.category;
-            $scope.curExpense.subcategory = key.subcategory;
-            $scope.addExpense();
+
+        //check if rule applies to next expense
+        $scope.rules.forEach((rule) => {
+          if (keyDesc.indexOf(rule.keyword.toLowerCase()) >= 0) {
+            var saveCategories = false;
+            switch (rule.condition) {
+              case '>': if ($scope.curExpense.amount > rule.conditionAmount) { saveCategories = true; break; }
+              case '<': if ($scope.curExpense.amount < rule.conditionAmount) { saveCategories = true; break; }
+              default: saveCategories = true; break;
+            }
+            if (saveCategories) {
+              $scope.curExpense.category = rule.category;
+              $scope.curExpense.subcategory = rule.subcategory;
+              skipExpense = true;
+            }
           }
         });
-        
+
+        if (skipExpense) {
+          console.log('SKIPPING');
+          $scope.addExpense();
+        }
+
       }
 
     }

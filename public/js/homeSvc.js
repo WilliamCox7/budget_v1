@@ -31,6 +31,15 @@ angular.module('budget').service('homeSvc',
         return result.data;
       });
     }
+    this.addExpenses = (expenses) => {
+      return $http({
+        method: 'POST',
+        url: '/addExpenses',
+        data: { expenses: expenses }
+      }).then((result) => {
+        return result.data;
+      });
+    }
     this.removeIncome = (source) => {
       return $http({
         method: 'DELETE',
