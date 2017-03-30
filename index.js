@@ -107,7 +107,6 @@ app.post('/addIncome', function(req, res) {
       length: req.body.length,
       hours: req.body.hours,
       first: req.body.first,
-      pattern: req.body.pattern,
       deduction: req.body.deduction,
       percent: req.body.percent
     }, function(err, result) {
@@ -205,7 +204,6 @@ app.put('/updateIncome', function(req, res) {
       'length': req.body.length,
       'hours': req.body.hours,
       'first': req.body.first,
-      'pattern': req.body.pattern,
       'deduction': req.body.deduction,
       'percent': req.body.percent
     }}, function(err, result) {

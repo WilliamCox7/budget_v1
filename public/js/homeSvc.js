@@ -8,13 +8,13 @@ angular.module('budget').service('homeSvc',
         return result.data;
       });
     }
-    this.addIncome = (source, amount, length, hours, first, pattern, deduction, percent) => {
+    this.addIncome = (source, amount, length, hours, first, deduction, percent) => {
       return $http({
         method: 'POST',
         url: '/addIncome',
         data: {
           source: source, amount: amount, length: length, hours: hours,
-          first: first, pattern: pattern, deduction: deduction, percent: percent
+          first: first, deduction: deduction, percent: percent
         }
       }).then((result) => {
         return result.data;
@@ -56,13 +56,13 @@ angular.module('budget').service('homeSvc',
         return result.data;
       });
     }
-    this.updateIncome = (_id, source, amount, length, hours, first, pattern, deduction, percent) => {
+    this.updateIncome = (_id, source, amount, length, hours, first, deduction, percent) => {
       return $http({
         method: 'PUT',
         url: '/updateIncome',
         data: {
           _id: _id, source: source, amount: amount, length: length, hours: hours,
-          first: first, pattern: pattern, deduction: deduction, percent: percent
+          first: first, deduction: deduction, percent: percent
         }
       }).then((result) => {
         return result.data;

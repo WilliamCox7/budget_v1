@@ -24,15 +24,6 @@
           <td>First Payment:</td>
           <td><input ng-model="incomeFirst" type="date" /></td>
         </tr>
-        <tr id="pattern-section">
-          <td>Payment Pattern:</td>
-          <td>
-            <select ng-model="incomePattern">
-              <option value="bi-weekly">Bi-Weekly</option>
-              <option value="once">Once</option>
-            </select>
-          </td>
-        </tr>
         <tr id="deduction-section">
           <td>Pre-Tax Deduction:</td>
           <td>
@@ -45,11 +36,11 @@
           <td>
             <button id="add-inc-btn" ng-click="addIncome(
               incomeSource, incomeAmount, incomeLength, incomeHours,
-              incomeFirst, incomePattern, incomeDeduction, incomePercent
+              incomeFirst, incomeDeduction, incomePercent
             )">Add Income</button>
             <button id="update-inc-btn" ng-click="updateIncome(
               incomeSource, incomeAmount, incomeLength, incomeHours,
-              incomeFirst, incomePattern, incomeDeduction, incomePercent
+              incomeFirst, incomeDeduction, incomePercent
             )">Update</button>
             <button id="remove-inc-btn" ng-click="removeIncome(incomeSource)">Remove</button>
           </td>
@@ -76,13 +67,13 @@
             </div>
             <div class="right">
               <div class="dollar">
-                <p>$</p><span>0.00</span>
+                <p>$</p><span>{{calcData.cInc.GI.B | currency:""}}</span>
               </div>
               <div class="dollar">
-                <p>$</p><span>0.00</span>
+                <p>$</p><span>{{calcData.cInc.GI.M | currency:""}}</span>
               </div>
               <div class="dollar">
-                <p>$</p><span>0.00</span>
+                <p>$</p><span>{{calcData.cInc.GI.Y | currency:""}}</span>
               </div>
             </div>
           </div>
@@ -92,13 +83,13 @@
             </div>
             <div class="right">
               <div class="dollar">
-                <p>$</p><span>0.00</span>
+                <p>$</p><span>{{calcData.cInc.PD.B | currency:""}}</span>
               </div>
               <div class="dollar">
-                <p>$</p><span>0.00</span>
+                <p>$</p><span>{{calcData.cInc.PD.M | currency:""}}</span>
               </div>
               <div class="dollar">
-                <p>$</p><span>0.00</span>
+                <p>$</p><span>{{calcData.cInc.PD.Y | currency:""}}</span>
               </div>
             </div>
           </div>
@@ -108,13 +99,13 @@
             </div>
             <div class="right">
               <div class="dollar">
-                <p>$</p><span>0.00</span>
+                <p>$</p><span>{{calcData.cInc.SS.B | currency:""}}</span>
               </div>
               <div class="dollar">
-                <p>$</p><span>0.00</span>
+                <p>$</p><span>{{calcData.cInc.SS.M | currency:""}}</span>
               </div>
               <div class="dollar">
-                <p>$</p><span>0.00</span>
+                <p>$</p><span>{{calcData.cInc.SS.Y | currency:""}}</span>
               </div>
             </div>
           </div>
@@ -124,13 +115,13 @@
             </div>
             <div class="right">
               <div class="dollar">
-                <p>$</p><span>0.00</span>
+                <p>$</p><span>{{calcData.cInc.M.B | currency:""}}</span>
               </div>
               <div class="dollar">
-                <p>$</p><span>0.00</span>
+                <p>$</p><span>{{calcData.cInc.M.M | currency:""}}</span>
               </div>
               <div class="dollar">
-                <p>$</p><span>0.00</span>
+                <p>$</p><span>{{calcData.cInc.M.Y | currency:""}}</span>
               </div>
             </div>
           </div>
@@ -140,13 +131,13 @@
             </div>
             <div class="right">
               <div class="dollar">
-                <p>$</p><span>0.00</span>
+                <p>$</p><span>{{calcData.cInc.W.B | currency:""}}</span>
               </div>
               <div class="dollar">
-                <p>$</p><span>0.00</span>
+                <p>$</p><span>{{calcData.cInc.W.M | currency:""}}</span>
               </div>
               <div class="dollar">
-                <p>$</p><span>0.00</span>
+                <p>$</p><span>{{calcData.cInc.W.Y | currency:""}}</span>
               </div>
             </div>
           </div>
@@ -156,13 +147,13 @@
             </div>
             <div class="right">
               <div class="dollar">
-                <p>$</p><span>0.00</span>
+                <p>$</p><span>{{calcData.cInc.ST.B | currency:""}}</span>
               </div>
               <div class="dollar">
-                <p>$</p><span>0.00</span>
+                <p>$</p><span>{{calcData.cInc.ST.M | currency:""}}</span>
               </div>
               <div class="dollar">
-                <p>$</p><span>0.00</span>
+                <p>$</p><span>{{calcData.cInc.ST.Y | currency:""}}</span>
               </div>
             </div>
           </div>
@@ -173,13 +164,13 @@
           </div>
           <div class="right">
             <div class="dollar">
-              <p>$</p><span>0.00</span>
+              <p>$</p><span>{{calcData.cInc.N.B | currency:""}}</span>
             </div>
             <div class="dollar">
-              <p>$</p><span>0.00</span>
+              <p>$</p><span>{{calcData.cInc.N.M | currency:""}}</span>
             </div>
             <div class="dollar">
-              <p>$</p><span>0.00</span>
+              <p>$</p><span>{{calcData.cInc.N.Y | currency:""}}</span>
             </div>
           </div>
         </div>

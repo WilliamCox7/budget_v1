@@ -1,5 +1,5 @@
 angular.module('budget').controller('homeCtrl',
-  function($scope, homeSvc) {
+  function($scope, homeSvc, calcSvc) {
     (() => {
         homeSvc.getData().then((data) => {
           console.log(data);
@@ -22,6 +22,11 @@ angular.module('budget').controller('homeCtrl',
               });
             }
           });
+
+          var calcData = calcSvc.calculate(data.incomes, data.loans, data.expenses);
+          $scope.calcData = calcData;
+          console.log($scope.calcData);
+
         });
     })();
     function already(arr, test) {
@@ -31,9 +36,9 @@ angular.module('budget').controller('homeCtrl',
       });
       return isAlready;
     }
-    $scope.addIncome = (source, amount, length, hours, first, pattern, deduction, percent) => {
+    $scope.addIncome = (source, amount, length, hours, first, deduction, percent) => {
       if (source) {
-        homeSvc.addIncome(source, amount, length, hours, first, pattern, deduction, percent).then((result) => {
+        homeSvc.addIncome(source, amount, length, hours, first, deduction, percent).then((result) => {
           console.log(result);
           $('.income-form').css('display', 'none');
           $('#add-inc-btn').css('display', 'none');
@@ -44,7 +49,6 @@ angular.module('budget').controller('homeCtrl',
             length: length,
             hours: hours,
             first: first,
-            pattern: pattern,
             deduction: deduction,
             percent: percent
           });
@@ -95,7 +99,6 @@ angular.module('budget').controller('homeCtrl',
             $scope.incomeLength = income.length;
             $scope.incomeHours = income.hours;
             $scope.incomeFirst = income.first;
-            $scope.incomePattern = income.pattern;
             $scope.incomeDeduction = income.deduction;
             $scope.incomePercent = income.percent;
             $('.income-form').css('display', 'block');
@@ -190,7 +193,6 @@ angular.module('budget').controller('homeCtrl',
               length: length,
               hours: hours,
               first: first,
-              pattern: pattern,
               deduction: deduction,
               percent: percent
             });
@@ -244,7 +246,6 @@ angular.module('budget').controller('homeCtrl',
         $scope.incomeLength = null;
         $scope.incomeHours = null;
         $scope.incomeFirst = null;
-        $scope.incomePattern = null;
         $scope.incomeDeduction = null;
         $scope.incomePercent = null;
         $('.income-form').css('display', 'block');
