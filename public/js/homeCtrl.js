@@ -36,6 +36,13 @@ angular.module('budget').controller('homeCtrl',
       });
       return isAlready;
     }
+    $scope.toggleHour = function(incomeLength) {
+      if (incomeLength === '/hr') {
+        $('#hour-section').css('display', 'table-row');
+      } else {
+        $('#hour-section').css('display', 'none');
+      }
+    }
     $scope.addIncome = (source, amount, length, hours, first, deduction, percent) => {
       if (source) {
         homeSvc.addIncome(source, amount, length, hours, first, deduction, percent).then((result) => {
@@ -52,6 +59,8 @@ angular.module('budget').controller('homeCtrl',
             deduction: deduction,
             percent: percent
           });
+          var calcData = calcSvc.calculate($scope.incomes, $scope.loans, $scope.expenses);
+          $scope.calcData = calcData;
         });
       }
     }
@@ -70,6 +79,8 @@ angular.module('budget').controller('homeCtrl',
             term: term,
             first: first
           });
+          var calcData = calcSvc.calculate($scope.incomes, $scope.loans, $scope.expenses);
+          $scope.calcData = calcData;
         });
       }
     }
@@ -90,6 +101,7 @@ angular.module('budget').controller('homeCtrl',
       } else {
         $scope.incomes.forEach((income, i) => {
           if (income.source === source) {
+            $scope.toggleHour(income.length);
             if ($scope.clickedDiv) {
               $scope.clickedDiv.css('background', 'slategray');
             }
@@ -98,7 +110,7 @@ angular.module('budget').controller('homeCtrl',
             $scope.incomeAmount = income.amount;
             $scope.incomeLength = income.length;
             $scope.incomeHours = income.hours;
-            $scope.incomeFirst = income.first;
+            $scope.incomeFirst = new Date(income.first);
             $scope.incomeDeduction = income.deduction;
             $scope.incomePercent = income.percent;
             $('.income-form').css('display', 'block');
@@ -137,7 +149,7 @@ angular.module('budget').controller('homeCtrl',
             $scope.loanPayment = loan.payment;
             $scope.loanRate = loan.rate;
             $scope.loanTerm = loan.term;
-            $scope.loanFirst = loan.first;
+            $scope.loanFirst = new Date(loan.first);
             $('.loan-form').css('display', 'block');
             $('#update-loan-btn').css('display', 'block');
             $('#remove-loan-btn').css('display', 'block');
@@ -158,6 +170,8 @@ angular.module('budget').controller('homeCtrl',
         $scope.incomes.forEach((income, i) => {
           if (income.source === source) {
             $scope.incomes.splice(i, 1);
+            var calcData = calcSvc.calculate($scope.incomes, $scope.loans, $scope.expenses);
+            $scope.calcData = calcData;
           }
         });
       });
@@ -172,12 +186,14 @@ angular.module('budget').controller('homeCtrl',
         $scope.loans.forEach((loan, i) => {
           if (loan.payee === payee) {
             $scope.loans.splice(i, 1);
+            var calcData = calcSvc.calculate($scope.incomes, $scope.loans, $scope.expenses);
+            $scope.calcData = calcData;
           }
         });
       });
     }
-    $scope.updateIncome = (source, amount, length, hours, first, pattern, deduction, percent) => {
-      homeSvc.updateIncome($scope.incomeId, source, amount, length, hours, first, pattern, deduction, percent).then((result) => {
+    $scope.updateIncome = (source, amount, length, hours, first, deduction, percent) => {
+      homeSvc.updateIncome($scope.incomeId, source, amount, length, hours, first, deduction, percent).then((result) => {
         console.log(result);
         $('.income-form').css('display', 'none');
         $('#update-inc-btn').css('display', 'none');
@@ -196,6 +212,8 @@ angular.module('budget').controller('homeCtrl',
               deduction: deduction,
               percent: percent
             });
+            var calcData = calcSvc.calculate($scope.incomes, $scope.loans, $scope.expenses);
+            $scope.calcData = calcData;
           }
         });
       });
@@ -219,6 +237,8 @@ angular.module('budget').controller('homeCtrl',
               term: term,
               first: first
             });
+            var calcData = calcSvc.calculate($scope.incomes, $scope.loans, $scope.expenses);
+            $scope.calcData = calcData;
           }
         });
       });
@@ -254,6 +274,7 @@ angular.module('budget').controller('homeCtrl',
         $('#remove-inc-btn').css('display', 'none');
         $scope.clickedDiv = $('#source-img-1');
         $scope.clickedDiv.css('background', '#2B3151');
+        $scope.toggleHour(null);
       }
     }
     $scope.newLoan = ($event) => {

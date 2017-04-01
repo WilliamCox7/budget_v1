@@ -10,7 +10,7 @@
           <td>Amount:</td>
           <td>
             <input ng-model="incomeAmount" type="text" />
-            <select ng-model="incomeLength">
+            <select ng-change="toggleHour(incomeLength)" ng-model="incomeLength">
               <option value="/yr">/yr</option>
               <option value="/hr">/hr</option>
             </select>
@@ -246,7 +246,7 @@
             </div>
             <div class="right">
               <div class="dollar">
-                <p>$</p><span>0.00</span>
+                <p>$</p><span>{{calcData.cLoan.P | currency:""}}</span>
               </div>
             </div>
           </div>
@@ -256,7 +256,7 @@
             </div>
             <div class="right">
               <div class="dollar">
-                <p>$</p><span>0.00</span>
+                <p>$</p><span>{{calcData.cLoan.I | currency:""}}</span>
               </div>
             </div>
           </div>
@@ -267,27 +267,27 @@
           </div>
           <div class="right">
             <div class="dollar">
-              <p>$</p><span>0.00</span>
+              <p>$</p><span>{{calcData.cLoan.After | currency:""}}</span>
             </div>
           </div>
         </div>
-        <div class="total-remaining">
+        <!-- <div class="total-remaining">
           <div class="left">
             <p>Total Outgoing</p>
           </div>
           <div class="right">
             <div class="dollar">
-              <p>$</p><span>0.00</span>
+              <p>$</p><span>{{calcData.cLoan.N.B | currency:""}}</span>
             </div>
           </div>
-        </div>
+        </div> -->
         <div class="total-remaining">
           <div class="left">
             <p>Total Remaining</p>
           </div>
           <div class="right">
             <div class="dollar">
-              <p>$</p><span>0.00</span>
+              <p>$</p><span>{{calcData.cLoan.Rem | currency:""}}</span>
             </div>
           </div>
         </div>

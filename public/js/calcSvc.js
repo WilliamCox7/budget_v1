@@ -3,7 +3,7 @@ angular.module('budget').service('calcSvc',
     var self = calc = this;
     this.calculate = function(incomes, loans, expenses) {
       var cInc = self.calcInc(incomes);
-      // var cLoan = self.calcLoan(loans);
+      var cLoan = self.calcLoan(loans);
       // var cExp = self.calcExp(expenses);
       // var cProj = self.calcProj(cInc, cLoan, cExp);
       // return {
@@ -12,23 +12,21 @@ angular.module('budget').service('calcSvc',
       //   cExp: cExp,
       //   cProj: cProj
       // }
-      return {cInc};
+      return {cInc, cLoan};
     }
-
-    var incTemplate = {
-      GI: { B: 0, M: 0, Y: 0 },
-      PD: { B: 0, M: 0, Y: 0 },
-      SS: { B: 0, M: 0, Y: 0 },
-       M: { B: 0, M: 0, Y: 0 },
-       W: { B: 0, M: 0, Y: 0 },
-      ST: { B: 0, M: 0, Y: 0 },
-       N: { B: 0, M: 0, Y: 0 }
-    }
-    var incCalculations = incTemplate;
 
     this.calcInc = function(incomes) {
+      var incTemplate = {
+        GI: { B: 0, M: 0, Y: 0 },
+        PD: { B: 0, M: 0, Y: 0 },
+        SS: { B: 0, M: 0, Y: 0 },
+         M: { B: 0, M: 0, Y: 0 },
+         W: { B: 0, M: 0, Y: 0 },
+        ST: { B: 0, M: 0, Y: 0 },
+         N: { B: 0, M: 0, Y: 0 }
+      }
+      var incCalculations = Object.assign({}, incTemplate);
       incomes.forEach((income) => {
-        console.log(income);
         var source = income.source.split(" ").join("");
         incCalculations[source] = Object.assign({}, incTemplate);
         incCalculations[source].GI = calc.gross(Number(income.amount), Number(income.hours), income.length);
@@ -60,7 +58,6 @@ angular.module('budget').service('calcSvc',
         incCalculations.N.M  += incCalculations[source].N.M;
         incCalculations.N.Y  += incCalculations[source].N.Y;
       });
-      console.log(incCalculations);
       return incCalculations;
     }
 
@@ -116,7 +113,7 @@ angular.module('budget').service('calcSvc',
       return withholding;
     }
 
-    calc.federalTaxBracket = function(taxable) {
+    this.federalTaxBracket = function(taxable) {
       if (taxable > 418400) { return (taxable - 418400) * .396 + 121505.25; }
       else if (taxable > 416700) { return (taxable - 416700) * .35 + 120910.25; }
       else if (taxable > 191650) { return (taxable - 191650) * .33 + 46643.75; }
@@ -147,7 +144,41 @@ angular.module('budget').service('calcSvc',
     }
 
     this.calcLoan = function(loans) {
+      var loanTemplate = { P: 0, I: 0, After: 0, Rem: 0 }
+      var loanCalculations = Object.assign({}, loanTemplate);
+      var today = new Date();
+      loans.forEach((loan) => {
+        if (loan.payee) {
+          var payee = loan.payee.split(" ").join("");
+          var first = new Date(loan.first);
+          var months = calc.monthDiff(first, today);
+          var balance = Number(loan.balance);
+          var payment = Number(loan.payment);
+          var rate = Number(loan.rate);
+          var interest, principal;
+          for (var i = 0; i <= months; i++) {
+            interest = (balance * (rate/100)) / 12;
+            principal = payment - interest;
+            balance = balance - principal;
+          }
+          loanCalculations[payee] = Object.assign({}, loanTemplate);
+          loanCalculations[payee].P = principal;
+          loanCalculations[payee].I = interest;
+          loanCalculations[payee].After = principal + interest;
+          loanCalculations[payee].Rem = balance;
+          loanCalculations.P += principal;
+          loanCalculations.I += interest;
+          loanCalculations.After += principal + interest;
+          loanCalculations.Rem += balance;
+        }
+      });
+      return loanCalculations;
+    }
 
+    this.monthDiff = function(d1, d2) {
+      var months = (d2.getFullYear() - d1.getFullYear()) * 12;
+      months -= d1.getMonth() + 1; months += d2.getMonth();
+      return months <= 0 ? 0 : months;
     }
 
     this.calcExp = function(expenses) {
