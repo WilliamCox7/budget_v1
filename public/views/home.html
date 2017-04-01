@@ -358,9 +358,6 @@
           <div class="left">
             <p>Category</p>
           </div>
-          <div class="middle">
-            <p>Habit</p>
-          </div>
           <div class="right">
             <p>/Day</p>
             <p>/Month</p>
@@ -368,52 +365,36 @@
           </div>
         </div>
         <div class="rows">
-          <div ng-repeat="category in expCategories" class="expItem">
-            <div class="row">
+          <div ng-repeat="category in calcData.cExp" class="expItem">
+            <div class="row category-row">
               <div class="left">
-                <p>{{category}}</p>
-              </div>
-              <div class="middle">
-                <div class="dollar">
-                  <p>$</p><span>0.00</span>
-                </div>
-                <div class="percent">
-                  <span>0</span><p>%</p>
-                </div>
+                <p>{{category.N}}</p>
               </div>
               <div class="right">
                 <div class="dollar">
-                  <p>$</p><span>0.00</span>
+                  <p>$</p><span>{{category.D | currency:""}}</span>
                 </div>
                 <div class="dollar">
-                  <p>$</p><span>0.00</span>
+                  <p>$</p><span>{{category.M | currency:""}}</span>
                 </div>
                 <div class="dollar">
-                  <p>$</p><span>0.00</span>
+                  <p>$</p><span>{{category.Y | currency:""}}</span>
                 </div>
               </div>
             </div>
-            <div ng-repeat="subcategory in category" class="row">
+            <div ng-repeat="subcategory in category.subs" class="row">
               <div class="left">
-                <p>{{subcategory}}</p>
-              </div>
-              <div class="middle">
-                <div class="dollar">
-                  <p>$</p><span>0.00</span>
-                </div>
-                <div class="percent">
-                  <span>0</span><p>%</p>
-                </div>
+                <p>{{subcategory.N}}</p>
               </div>
               <div class="right">
                 <div class="dollar">
-                  <p>$</p><span>0.00</span>
+                  <p>$</p><span>{{subcategory.D | currency:""}}</span>
                 </div>
                 <div class="dollar">
-                  <p>$</p><span>0.00</span>
+                  <p>$</p><span>{{subcategory.M | currency:""}}</span>
                 </div>
                 <div class="dollar">
-                  <p>$</p><span>0.00</span>
+                  <p>$</p><span>{{subcategory.Y | currency:""}}</span>
                 </div>
               </div>
             </div>
@@ -423,20 +404,15 @@
           <div class="left">
             <p>Total</p>
           </div>
-          <div class="middle">
-            <div class="dollar">
-              <p>$</p><span>0.00</span>
-            </div>
-          </div>
           <div class="right">
             <div class="dollar">
-              <p>$</p><span>0.00</span>
+              <p>$</p><span>{{calcData.expTotals.D | currency:""}}</span>
             </div>
             <div class="dollar">
-              <p>$</p><span>0.00</span>
+              <p>$</p><span>{{calcData.expTotals.M | currency:""}}</span>
             </div>
             <div class="dollar">
-              <p>$</p><span>0.00</span>
+              <p>$</p><span>{{calcData.expTotals.Y | currency:""}}</span>
             </div>
           </div>
         </div>

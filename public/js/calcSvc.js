@@ -4,15 +4,11 @@ angular.module('budget').service('calcSvc',
     this.calculate = function(incomes, loans, expenses) {
       var cInc = self.calcInc(incomes);
       var cLoan = self.calcLoan(loans);
-      // var cExp = self.calcExp(expenses);
+      var expTemp = self.calcExp(expenses);
+      var cExp = expTemp.expCalculations;
+      var expTotals = expTemp.expTotals;
       // var cProj = self.calcProj(cInc, cLoan, cExp);
-      // return {
-      //   cInc: cInc,
-      //   cLoan: cLoan,
-      //   cExp: cExp,
-      //   cProj: cProj
-      // }
-      return {cInc, cLoan};
+      return {cInc, cLoan, cExp, expTotals};
     }
 
     this.calcInc = function(incomes) {
@@ -182,7 +178,60 @@ angular.module('budget').service('calcSvc',
     }
 
     this.calcExp = function(expenses) {
+      var expTemplate = { N: '', T: 0, D: 0, M: 0, Y: 0, subs: {} }
+      var expSubTemplate = { N: '', H: 0, T: 0, D: 0, M: 0, Y: 0 }
+      var expCalculations = {};
+      var expTotals = { D: 0, M: 0, Y: 0 }
+      var maxDate, minDate;
+      var totalExp = 0;
+      expenses.forEach((expense) => {
+        if (maxDate && minDate) {
+          var nDate = new Date(expense.date);
+          if (maxDate - nDate < 0) { maxDate = nDate; }
+          if (nDate - minDate < 0) { minDate = nDate; }
+        } else {
+          maxDate = new Date(expense.date);
+          minDate = new Date(expense.date);
+        }
+      });
+      var totalDays = (maxDate - minDate) / (100*60*60*24);
+      expenses.forEach((expense) => {
+        if (expense.category) {
+          totalExp += expense.amount;
+          var catKey = expense.category.split(" ").join("");
+          var subKey = expense.subcategory.split(" ").join("");
+          if (!expCalculations[catKey]) {
+            expCalculations[catKey] = Object.assign({}, expTemplate);
+          }
+          expCalculations[catKey].T += expense.amount;
 
+          if (!expCalculations[catKey].subs[subKey]) {
+            expCalculations[catKey].subs[subKey] = Object.assign({}, expSubTemplate);
+          }
+          expCalculations[catKey].subs[subKey].T += expense.amount;
+          expCalculations[catKey].N = catKey;
+          expCalculations[catKey].subs[subKey].N = subKey;
+
+
+          if (!totalDays) { totalDays = 1; }
+          expCalculations[catKey].D = expCalculations[catKey].T / totalDays;
+          expCalculations[catKey].subs[subKey].D = expCalculations[catKey].subs[subKey].T / totalDays;
+          expCalculations[catKey].M = (expCalculations[catKey].D * 365) / 12;
+          expCalculations[catKey].subs[subKey].M = (expCalculations[catKey].subs[subKey].D * 365) / 12;
+          expCalculations[catKey].Y = expCalculations[catKey].D * 365;
+          expCalculations[catKey].subs[subKey].Y = expCalculations[catKey].subs[subKey].D * 365;
+        }
+      });
+      expTotals.D = totalExp / totalDays
+      expTotals.M = (expTotals.D * 365) / 12;
+      expTotals.Y = expTotals.D * 365;
+      expenses.forEach((expense) => {
+        var catKey = expense.category.split(" ").join("");
+        var subKey = expense.subcategory.split(" ").join("");
+
+        expCalculations[catKey].subs[subKey].H = (expCalculations[catKey].subs[subKey].T / expCalculations[catKey].T) * 100;
+      });
+      return {expCalculations, expTotals};
     }
 
     this.calcProj = function(cData) {

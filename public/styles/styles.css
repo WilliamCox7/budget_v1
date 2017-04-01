@@ -325,6 +325,9 @@ button:focus {
 .home .gray-box .rows .row {
   height: 20px;
 }
+.home .gray-box .rows .category-row {
+  background: lightslategray;
+}
 .home .gray-box .row-total {
   margin-top: 5px;
   display: flex;
