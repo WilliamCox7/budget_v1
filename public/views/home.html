@@ -1,3 +1,25 @@
+<modal ng-click="closeModal($event)" class="rule-modal">
+  <div class="rules-list">
+    <table>
+      <tr>
+        <th>Keyword</th>
+        <th>Condition</th>
+        <th>Amount</th>
+        <th>Category</th>
+        <th>Subcategory</th>
+        <th></th>
+      </tr>
+      <tr ng-repeat="rule in rules">
+        <td>{{rule.keyword}}</td>
+        <td>{{rule.condition}}</td>
+        <td>{{rule.conditionAmount | currency}}</td>
+        <td>{{rule.category}}</td>
+        <td>{{rule.subcategory}}</td>
+        <td ng-click="removeRule(rule.keyword, rule.condition, rule.conditionAmount)">X</td>
+      </tr>
+    </table>
+  </div>
+</modal>
 <section class="home">
   <div class="income-section">
     <div class="income-form">
@@ -271,16 +293,6 @@
             </div>
           </div>
         </div>
-        <!-- <div class="total-remaining">
-          <div class="left">
-            <p>Total Outgoing</p>
-          </div>
-          <div class="right">
-            <div class="dollar">
-              <p>$</p><span>{{calcData.cLoan.N.B | currency:""}}</span>
-            </div>
-          </div>
-        </div> -->
         <div class="total-remaining">
           <div class="left">
             <p>Total Remaining</p>
@@ -418,7 +430,7 @@
         </div>
       </div>
       <div class="sources">
-        <div class="source">
+        <div ng-click="showModal()" class="source">
           <p>Manage Rules</p>
         </div>
         <input id="csvButton" type="file" accept=".csv" upload />
@@ -435,231 +447,231 @@
         <div class="month-box">
           <p>January</p>
           <div class="dollar">
-            <p>$</p><span>0.00</span>
+            <p>$</p><span>{{calcData.cProj.Jan1 | currency:""}}</span>
           </div>
         </div>
         <div class="month-box">
           <p>February</p>
           <div class="dollar">
-            <p>$</p><span>0.00</span>
+            <p>$</p><span>{{calcData.cProj.Feb1 | currency:""}}</span>
           </div>
         </div>
         <div class="month-box">
           <p>March</p>
           <div class="dollar">
-            <p>$</p><span>0.00</span>
+            <p>$</p><span>{{calcData.cProj.Mar1 | currency:""}}</span>
           </div>
         </div>
         <div class="month-box">
           <p>April</p>
           <div class="dollar">
-            <p>$</p><span>0.00</span>
+            <p>$</p><span>{{calcData.cProj.Apr1 | currency:""}}</span>
           </div>
         </div>
         <div class="month-box">
           <p>May</p>
           <div class="dollar">
-            <p>$</p><span>0.00</span>
+            <p>$</p><span>{{calcData.cProj.May1 | currency:""}}</span>
           </div>
         </div>
         <div class="month-box">
           <p>June</p>
           <div class="dollar">
-            <p>$</p><span>0.00</span>
+            <p>$</p><span>{{calcData.cProj.Jun1 | currency:""}}</span>
           </div>
         </div>
         <div class="month-box">
           <p>July</p>
           <div class="dollar">
-            <p>$</p><span>0.00</span>
+            <p>$</p><span>{{calcData.cProj.Jul1 | currency:""}}</span>
           </div>
         </div>
         <div class="month-box">
           <p>August</p>
           <div class="dollar">
-            <p>$</p><span>0.00</span>
+            <p>$</p><span>{{calcData.cProj.Aug1 | currency:""}}</span>
           </div>
         </div>
         <div class="month-box">
           <p>September</p>
           <div class="dollar">
-            <p>$</p><span>0.00</span>
+            <p>$</p><span>{{calcData.cProj.Sep1 | currency:""}}</span>
           </div>
         </div>
         <div class="month-box">
           <p>October</p>
           <div class="dollar">
-            <p>$</p><span>0.00</span>
+            <p>$</p><span>{{calcData.cProj.Oct1 | currency:""}}</span>
           </div>
         </div>
         <div class="month-box">
           <p>November</p>
           <div class="dollar">
-            <p>$</p><span>0.00</span>
+            <p>$</p><span>{{calcData.cProj.Nov1 | currency:""}}</span>
           </div>
         </div>
         <div class="month-box">
           <p>December</p>
           <div class="dollar">
-            <p>$</p><span>0.00</span>
+            <p>$</p><span>{{calcData.cProj.Dec1 | currency:""}}</span>
           </div>
         </div>
       </div>
     </div>
   </div>
   <div class="projection">
-    <p class="header-text">Projections - <span>2018</span></p>
+    <p class="header-text">Projections - <span>{{curYear+1}}</span></p>
     <div class="gray-box">
       <div class="month-boxes">
         <div class="month-box">
           <p>January</p>
           <div class="dollar">
-            <p>$</p><span>0.00</span>
+            <p>$</p><span>{{calcData.cProj.Jan2 | currency:""}}</span>
           </div>
         </div>
         <div class="month-box">
           <p>February</p>
           <div class="dollar">
-            <p>$</p><span>0.00</span>
+            <p>$</p><span>{{calcData.cProj.Feb2 | currency:""}}</span>
           </div>
         </div>
         <div class="month-box">
           <p>March</p>
           <div class="dollar">
-            <p>$</p><span>0.00</span>
+            <p>$</p><span>{{calcData.cProj.Mar2 | currency:""}}</span>
           </div>
         </div>
         <div class="month-box">
           <p>April</p>
           <div class="dollar">
-            <p>$</p><span>0.00</span>
+            <p>$</p><span>{{calcData.cProj.Apr2 | currency:""}}</span>
           </div>
         </div>
         <div class="month-box">
           <p>May</p>
           <div class="dollar">
-            <p>$</p><span>0.00</span>
+            <p>$</p><span>{{calcData.cProj.May2 | currency:""}}</span>
           </div>
         </div>
         <div class="month-box">
           <p>June</p>
           <div class="dollar">
-            <p>$</p><span>0.00</span>
+            <p>$</p><span>{{calcData.cProj.Jun2 | currency:""}}</span>
           </div>
         </div>
         <div class="month-box">
           <p>July</p>
           <div class="dollar">
-            <p>$</p><span>0.00</span>
+            <p>$</p><span>{{calcData.cProj.Jul2 | currency:""}}</span>
           </div>
         </div>
         <div class="month-box">
           <p>August</p>
           <div class="dollar">
-            <p>$</p><span>0.00</span>
+            <p>$</p><span>{{calcData.cProj.Aug2 | currency:""}}</span>
           </div>
         </div>
         <div class="month-box">
           <p>September</p>
           <div class="dollar">
-            <p>$</p><span>0.00</span>
+            <p>$</p><span>{{calcData.cProj.Sep2 | currency:""}}</span>
           </div>
         </div>
         <div class="month-box">
           <p>October</p>
           <div class="dollar">
-            <p>$</p><span>0.00</span>
+            <p>$</p><span>{{calcData.cProj.Oct2 | currency:""}}</span>
           </div>
         </div>
         <div class="month-box">
           <p>November</p>
           <div class="dollar">
-            <p>$</p><span>0.00</span>
+            <p>$</p><span>{{calcData.cProj.Nov2 | currency:""}}</span>
           </div>
         </div>
         <div class="month-box">
           <p>December</p>
           <div class="dollar">
-            <p>$</p><span>0.00</span>
+            <p>$</p><span>{{calcData.cProj.Dec2 | currency:""}}</span>
           </div>
         </div>
       </div>
     </div>
   </div>
   <div class="projection">
-    <p class="header-text">Projections - <span>2019</span></p>
+    <p class="header-text">Projections - <span>{{curYear+2}}</span></p>
     <div class="gray-box">
       <div class="month-boxes">
         <div class="month-box">
           <p>January</p>
           <div class="dollar">
-            <p>$</p><span>0.00</span>
+            <p>$</p><span>{{calcData.cProj.Jan3 | currency:""}}</span>
           </div>
         </div>
         <div class="month-box">
           <p>February</p>
           <div class="dollar">
-            <p>$</p><span>0.00</span>
+            <p>$</p><span>{{calcData.cProj.Feb3 | currency:""}}</span>
           </div>
         </div>
         <div class="month-box">
           <p>March</p>
           <div class="dollar">
-            <p>$</p><span>0.00</span>
+            <p>$</p><span>{{calcData.cProj.Mar3 | currency:""}}</span>
           </div>
         </div>
         <div class="month-box">
           <p>April</p>
           <div class="dollar">
-            <p>$</p><span>0.00</span>
+            <p>$</p><span>{{calcData.cProj.Apr3 | currency:""}}</span>
           </div>
         </div>
         <div class="month-box">
           <p>May</p>
           <div class="dollar">
-            <p>$</p><span>0.00</span>
+            <p>$</p><span>{{calcData.cProj.May3 | currency:""}}</span>
           </div>
         </div>
         <div class="month-box">
           <p>June</p>
           <div class="dollar">
-            <p>$</p><span>0.00</span>
+            <p>$</p><span>{{calcData.cProj.Jun3 | currency:""}}</span>
           </div>
         </div>
         <div class="month-box">
           <p>July</p>
           <div class="dollar">
-            <p>$</p><span>0.00</span>
+            <p>$</p><span>{{calcData.cProj.Jul3 | currency:""}}</span>
           </div>
         </div>
         <div class="month-box">
           <p>August</p>
           <div class="dollar">
-            <p>$</p><span>0.00</span>
+            <p>$</p><span>{{calcData.cProj.Aug3 | currency:""}}</span>
           </div>
         </div>
         <div class="month-box">
           <p>September</p>
           <div class="dollar">
-            <p>$</p><span>0.00</span>
+            <p>$</p><span>{{calcData.cProj.Sep3 | currency:""}}</span>
           </div>
         </div>
         <div class="month-box">
           <p>October</p>
           <div class="dollar">
-            <p>$</p><span>0.00</span>
+            <p>$</p><span>{{calcData.cProj.Oct3 | currency:""}}</span>
           </div>
         </div>
         <div class="month-box">
           <p>November</p>
           <div class="dollar">
-            <p>$</p><span>0.00</span>
+            <p>$</p><span>{{calcData.cProj.Nov3 | currency:""}}</span>
           </div>
         </div>
         <div class="month-box">
           <p>December</p>
           <div class="dollar">
-            <p>$</p><span>0.00</span>
+            <p>$</p><span>{{calcData.cProj.Dec3 | currency:""}}</span>
           </div>
         </div>
       </div>

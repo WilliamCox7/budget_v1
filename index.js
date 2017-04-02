@@ -157,6 +157,9 @@ var q = async.queue(function(task, callback) {
 });
 
 app.post('/addExpenses', function(req, res) {
+  if (req.body.expenses.length === 0) {
+    res.status(200).send('No Expenses To Add');
+  }
   for (var doc in req.body.expenses) {
     q.push({ doc: req.body.expenses[doc] }, function(err) {
       if (err) console.log(err);
@@ -165,6 +168,23 @@ app.post('/addExpenses', function(req, res) {
   q.drain = function() {
     res.status(200).send('Added Expenses');
   }
+});
+
+app.delete('/removeRule/:id', function(req, res) {
+  MongoClient.connect(url, function(err, db) {
+    var collection = db.collection("expenses");
+    collection.updateOne({
+      '_id': new mongodb.ObjectID(req.params.id)
+    }, { $set: {
+      'keyword': null,
+      'condition': null,
+      'conditionAmount': null
+    }}, function(err, result) {
+      assert.equal(err, null);
+      res.status(200).send("Deleted Rule");
+      db.close();
+    });
+  });
 });
 
 app.delete('/removeIncome/:source', function(req, res) {

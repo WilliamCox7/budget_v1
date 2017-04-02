@@ -56,6 +56,14 @@ angular.module('budget').service('homeSvc',
         return result.data;
       });
     }
+    this.removeRule = (_id) => {
+      return $http({
+        method: 'DELETE',
+        url: '/removeRule/' + _id
+      }).then((result) => {
+        return result.data;
+      });
+    }
     this.updateIncome = (_id, source, amount, length, hours, first, deduction, percent) => {
       return $http({
         method: 'PUT',
