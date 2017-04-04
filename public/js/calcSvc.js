@@ -188,8 +188,6 @@ angular.module('budget').service('calcSvc',
       Oct: 0, Nov: 0, Dec: 0
     }
     this.calcExp = function(expenses) {
-      var expTemplate = { N: '', T: 0, D: 0, M: 0, Y: 0, subs: {} }
-      var expSubTemplate = { N: '', H: 0, T: 0, D: 0, M: 0, Y: 0 }
       var expCalculations = {};
       var expTotals = { D: 0, M: 0, Y: 0 }
       var maxDate, minDate;
@@ -265,19 +263,20 @@ angular.module('budget').service('calcSvc',
           minDate = new Date(expense.date);
         }
       });
-      var totalDays = (maxDate - minDate) / (100*60*60*24);
+      // var totalDays = (maxDate - minDate) / (100*60*60*24);
+      var totalDays = Math.floor(( maxDate - minDate ) / 86400000);
       expenses.forEach((expense) => {
         if (expense.category) {
           totalExp += expense.amount;
           var catKey = expense.category.split(" ").join("");
           var subKey = expense.subcategory.split(" ").join("");
           if (!expCalculations[catKey]) {
-            expCalculations[catKey] = Object.assign({}, expTemplate);
+            expCalculations[catKey] = { N: '', T: 0, D: 0, M: 0, Y: 0, subs: {} };
           }
           expCalculations[catKey].T += expense.amount;
 
           if (!expCalculations[catKey].subs[subKey]) {
-            expCalculations[catKey].subs[subKey] = Object.assign({}, expSubTemplate);
+            expCalculations[catKey].subs[subKey] = { N: '', H: 0, T: 0, D: 0, M: 0, Y: 0 };
           }
           expCalculations[catKey].subs[subKey].T += expense.amount;
           expCalculations[catKey].N = catKey;
@@ -297,10 +296,11 @@ angular.module('budget').service('calcSvc',
       expTotals.M = (expTotals.D * 365) / 12;
       expTotals.Y = expTotals.D * 365;
       expenses.forEach((expense) => {
-        var catKey = expense.category.split(" ").join("");
-        var subKey = expense.subcategory.split(" ").join("");
-
-        expCalculations[catKey].subs[subKey].H = (expCalculations[catKey].subs[subKey].T / expCalculations[catKey].T) * 100;
+        if (expense.category) {
+          var catKey = expense.category.split(" ").join("");
+          var subKey = expense.subcategory.split(" ").join("");
+          expCalculations[catKey].subs[subKey].H = (expCalculations[catKey].subs[subKey].T / expCalculations[catKey].T) * 100;
+        }
       });
       return {expCalculations, expTotals};
     }
@@ -340,7 +340,7 @@ angular.module('budget').service('calcSvc',
             loanUpdate[key].balance -= principal;
           }
           if (loanUpdate[key].balance > 0) {
-            projCalculations[mon] -= principal;
+            projCalculations[mon] -= principal + interest;
           } else {
             projCalculations[mon] -= lastBalance;
           }

@@ -3,6 +3,7 @@ angular.module('budget').controller('homeCtrl',
     $scope.curYear = new Date().getFullYear();
     (() => {
         homeSvc.getData().then((data) => {
+          console.log(data.expenses);
           $scope.incomes = data.incomes;
           $scope.loans = data.loans;
           $scope.expenses = data.expenses;
